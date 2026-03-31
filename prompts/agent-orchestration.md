@@ -35,7 +35,7 @@ Research and document risks in these categories. USE WEB SEARCH for each:
 7. **Security & Network Architecture**: Refineries have air-gapped or heavily firewalled OT networks. How does a cloud tool access historian data safely? Research ISA/IEC 62443, Purdue model for industrial network security
 8. **Scaling the Excel Bottleneck**: Excel is single-threaded and has memory limits. If you're running models every time a trigger fires, what are the performance implications?
 
-Write your findings to: /Users/ianrowe/git/Reflex/research/run1/technical-risks.md
+Write your findings to: /Users/ianrowe/git/Reflex/research/risks/technical-risks.md
 
 Format as a ranked list from highest to lowest severity, with each risk having: Description, Severity (Critical/High/Medium/Low), Evidence (from your research), and Suggested Mitigation.
 ```
@@ -65,7 +65,7 @@ Research and document risks in these categories. USE WEB SEARCH for each:
 9. **Acquisition Exit Feasibility**: Research recent acquisitions in industrial software. Is $100-250M realistic for a company with $8-15M ARR? What multiples are common?
 10. **Team Risk**: This is being built by students. Research what domain expertise is actually needed to sell to and implement at refineries. What credibility gap exists?
 
-Write your findings to: /Users/ianrowe/git/Reflex/research/run1/business-risks.md
+Write your findings to: /Users/ianrowe/git/Reflex/research/risks/business-risks.md
 
 Format as a ranked list from highest to lowest severity, with each risk having: Description, Severity (Critical/High/Medium/Low), Evidence (from your research), and Suggested Mitigation.
 ```
@@ -94,7 +94,7 @@ FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/produc
 9. **Training & Onboarding**: The transcript claims "no training required" because it's just Slack messages. Research whether this is realistic for a tool that changes operational decision-making
 10. **Union & Workforce Concerns**: Research how unionized refinery workers respond to AI optimization tools. Are there labor relations risks?
 
-Write your findings to: /Users/ianrowe/git/Reflex/research/run1/adoption-risks.md
+Write your findings to: /Users/ianrowe/git/Reflex/research/risks/adoption-risks.md
 
 Format as a ranked list from highest to lowest severity, with each risk having: Description, Severity (Critical/High/Medium/Low), Evidence (from your research), and Suggested Mitigation.
 ```
@@ -113,11 +113,11 @@ You are a strategic advisor synthesizing risk research for the Reflex platform. 
 FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/product-transcript.md to understand the original Reflex concept in full detail. Then read the three risk reports below. Your job is to:
 
 1. Read all three risk reports:
-   - /Users/ianrowe/git/Reflex/research/run1/technical-risks.md
-   - /Users/ianrowe/git/Reflex/research/run1/business-risks.md
-   - /Users/ianrowe/git/Reflex/research/run1/adoption-risks.md
+   - /Users/ianrowe/git/Reflex/research/risks/technical-risks.md
+   - /Users/ianrowe/git/Reflex/research/risks/business-risks.md
+   - /Users/ianrowe/git/Reflex/research/risks/adoption-risks.md
 
-2. Create a unified risk matrix at /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md that:
+2. Create a unified risk matrix at /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md that:
    - Deduplicates overlapping risks across all three reports
    - Ranks ALL risks by a combined score of (Severity x Likelihood x Impact on Timeline)
    - Identifies the TOP 10 "must-solve-before-building" risks
@@ -126,7 +126,7 @@ FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/produc
    - Provides a GO/NO-GO assessment for each major system component
    - Creates a "Risk-Adjusted Architecture" section that recommends design changes based on the identified risks
 
-3. Create an executive summary at /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md that:
+3. Create an executive summary at /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md that:
    - Lists the top 5 existential risks in plain language
    - Lists the top 5 "easy wins" that derisk the project
    - Gives an honest assessment of feasibility for a student team
@@ -142,8 +142,8 @@ FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/produc
 **Agents in this run**: 4 parallel research agents + 1 sequential assembly agent
 
 **Prerequisite**: Run 1 complete. All agents in Run 2 should read BOTH Run 1 outputs first:
-- `/Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md` — full risk matrix with severity rankings and interdependencies
-- `/Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md` — top existential risks, easy wins, feasibility assessment, and recommended phased approach
+- `/Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md` — full risk matrix with severity rankings and interdependencies
+- `/Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md` — top existential risks, easy wins, feasibility assessment, and recommended phased approach
 
 These documents define the constraints that should shape every design decision in Run 2.
 
@@ -162,8 +162,8 @@ You are a cloud infrastructure architect. Your task is to research and recommend
 
 FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/product-transcript.md to deeply understand the Reflex platform — its data flows, integrations, operator workflow, and business model.
 THEN: Read BOTH Run 1 research outputs to understand the constraints your design must address:
-- /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
+- /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
 
 Your architecture decisions should directly address the risks and constraints identified in these documents.
 
@@ -203,7 +203,7 @@ Your architecture decisions should directly address the risks and constraints id
    - Include a cost projection table for Year 1 (pilot) and Year 2 (10 sites)
    - Include architecture diagram description (what services connect to what)
 
-Write your findings to: /Users/ianrowe/git/Reflex/research/run2/cloud-platform-recommendation.md
+Write your findings to: /Users/ianrowe/git/Reflex/research/architecture/cloud-platform-recommendation.md
 ```
 
 ---
@@ -217,8 +217,8 @@ You are a data architect specializing in industrial IoT and time-series systems.
 
 FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/product-transcript.md to deeply understand the Reflex platform — every data flow, integration point, feedback loop, and intelligence feature described.
 THEN: Read BOTH Run 1 research outputs to understand the constraints your design must address:
-- /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
+- /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
 
 Your data architecture should directly address the risks and constraints identified in these documents.
 
@@ -266,7 +266,7 @@ Your data architecture should directly address the risks and constraints identif
    - Provide full ER diagram description
    - Define all database tables/collections with fields, types, relationships, and indexes
 
-Write your findings to: /Users/ianrowe/git/Reflex/research/run2/data-architecture.md
+Write your findings to: /Users/ianrowe/git/Reflex/research/architecture/data-architecture.md
 ```
 
 ---
@@ -280,8 +280,8 @@ You are a backend architect. Design the complete API layer and backend services 
 
 FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/product-transcript.md to deeply understand the Reflex platform — the trigger system, LP orchestration, AI translation, feedback loops, constraint registry, and all intelligence features.
 THEN: Read BOTH Run 1 research outputs to understand the constraints your design must address:
-- /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
+- /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
 
 Your service architecture should directly address the risks and constraints identified in these documents.
 
@@ -321,7 +321,7 @@ Your service architecture should directly address the risks and constraints iden
    - Design the edge component that sits inside the refinery network vs cloud components
    - Define the CI/CD pipeline
 
-Write your findings to: /Users/ianrowe/git/Reflex/research/run2/api-backend-architecture.md
+Write your findings to: /Users/ianrowe/git/Reflex/research/architecture/api-backend-architecture.md
 ```
 
 ---
@@ -335,8 +335,8 @@ You are a frontend architect and UX designer for industrial applications. Design
 
 FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/product-transcript.md to deeply understand the Reflex platform — the operator experience, Slack/Teams delivery, constraint feedback, dashboards (opportunity cost, coefficient reconciliation, sensor health), and the human-in-the-loop design philosophy.
 THEN: Read BOTH Run 1 research outputs to understand the constraints your design must address:
-- /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
+- /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md (full risk matrix with severity rankings and GO/NO-GO assessments)
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (top existential risks, easy wins, feasibility for a student team, and recommended phased approach)
 
 Your frontend and UX decisions should directly address the risks and constraints identified in these documents — especially any adoption risks flagged around operator trust, alert fatigue, and messaging channel suitability.
 
@@ -374,7 +374,7 @@ Your frontend and UX decisions should directly address the risks and constraints
    - Design the client-side state management approach
    - Define the API data fetching strategy (real-time subscriptions vs polling for each dashboard)
 
-Write your findings to: /Users/ianrowe/git/Reflex/research/run2/frontend-ux-architecture.md
+Write your findings to: /Users/ianrowe/git/Reflex/research/architecture/frontend-ux-architecture.md
 ```
 
 ---
@@ -390,12 +390,12 @@ You are the lead architect responsible for assembling the complete Reflex Engine
 
 ## Read ALL of these files first:
 - /Users/ianrowe/git/Reflex/docs/product-transcript.md (ORIGINAL product concept — read this first to understand the baseline before comparing)
-- /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md (risk context)
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md (risk summary)
-- /Users/ianrowe/git/Reflex/research/run2/cloud-platform-recommendation.md
-- /Users/ianrowe/git/Reflex/research/run2/data-architecture.md
-- /Users/ianrowe/git/Reflex/research/run2/api-backend-architecture.md
-- /Users/ianrowe/git/Reflex/research/run2/frontend-ux-architecture.md
+- /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md (risk context)
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (risk summary)
+- /Users/ianrowe/git/Reflex/research/architecture/cloud-platform-recommendation.md
+- /Users/ianrowe/git/Reflex/research/architecture/data-architecture.md
+- /Users/ianrowe/git/Reflex/research/architecture/api-backend-architecture.md
+- /Users/ianrowe/git/Reflex/research/architecture/frontend-ux-architecture.md
 
 ## Create the Engineering Specification
 
@@ -572,11 +572,11 @@ You are a technical writer and architecture decision record (ADR) specialist. Cr
 FIRST: Read the full product transcript at /Users/ianrowe/git/Reflex/docs/product-transcript.md to understand the original Reflex vision.
 THEN: Read these files thoroughly:
 - /Users/ianrowe/git/Reflex/ENGINEERING-SPEC.md
-- /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md
-- /Users/ianrowe/git/Reflex/research/run2/cloud-platform-recommendation.md
-- /Users/ianrowe/git/Reflex/research/run2/data-architecture.md
-- /Users/ianrowe/git/Reflex/research/run2/api-backend-architecture.md
-- /Users/ianrowe/git/Reflex/research/run2/frontend-ux-architecture.md
+- /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md
+- /Users/ianrowe/git/Reflex/research/architecture/cloud-platform-recommendation.md
+- /Users/ianrowe/git/Reflex/research/architecture/data-architecture.md
+- /Users/ianrowe/git/Reflex/research/architecture/api-backend-architecture.md
+- /Users/ianrowe/git/Reflex/research/architecture/frontend-ux-architecture.md
 
 ## Create Two Documents
 
@@ -726,11 +726,11 @@ You are a presentation content strategist specializing in startup pitch narrativ
 
 FIRST: Read these files thoroughly:
 - /Users/ianrowe/git/Reflex/docs/product-transcript.md (original vision — this is the narrative backbone for Section 1)
-- /Users/ianrowe/git/Reflex/research/run1/technical-risks.md
-- /Users/ianrowe/git/Reflex/research/run1/business-risks.md
-- /Users/ianrowe/git/Reflex/research/run1/adoption-risks.md
-- /Users/ianrowe/git/Reflex/research/run1/RISK-MATRIX.md
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md
+- /Users/ianrowe/git/Reflex/research/risks/technical-risks.md
+- /Users/ianrowe/git/Reflex/research/risks/business-risks.md
+- /Users/ianrowe/git/Reflex/research/risks/adoption-risks.md
+- /Users/ianrowe/git/Reflex/research/risks/RISK-MATRIX.md
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md
 
 ## Your Sections
 
@@ -754,15 +754,15 @@ Create slides for:
 8. Section divider: "Risk Analysis — What Could Kill This"
 9. Top 5 Existential Risks: One slide with the 5 scariest findings from the executive summary. Make them blunt and honest.
 10-11. Technical Risks (2 slides): Distill the top findings — historian integration complexity, Excel automation limits, OT/IT security firewalls, Excel single-threaded bottleneck. Use a table or severity-ranked list.
-    - deep_dive: research/run1/technical-risks.md
+    - deep_dive: research/risks/technical-risks.md
 12-13. Business & Market Risks (2 slides): Market size validation (is 80-120 accurate?), competitive landscape (are incumbents going downmarket?), sales cycle reality (18+ months?), team credibility gap (students selling to refineries)
-    - deep_dive: research/run1/business-risks.md
+    - deep_dive: research/risks/business-risks.md
 14-15. Adoption Risks (2 slides): Operator trust in AI, Slack/Teams viability on shift, alert fatigue despite triggers, NLP constraint extraction reliability, union concerns
-    - deep_dive: research/run1/adoption-risks.md
+    - deep_dive: research/risks/adoption-risks.md
 16. Risk Matrix: Table slide showing top 10 must-solve-before-building risks with columns: Risk | Severity | Likelihood | Component Affected | GO/NO-GO
-    - deep_dive: research/run1/RISK-MATRIX.md
+    - deep_dive: research/risks/RISK-MATRIX.md
 17. Easy Wins: Top 5 things that derisk the project quickly and cheaply
-    - deep_dive: research/run1/EXECUTIVE-SUMMARY.md
+    - deep_dive: research/risks/EXECUTIVE-SUMMARY.md
 
 ### Speaker Notes Guidance
 - Section 1 speaker notes should be enthusiastic but grounded — you're selling the opportunity to your teammate
@@ -804,11 +804,11 @@ You are a presentation content strategist specializing in technical architecture
 FIRST: Read these files thoroughly:
 - /Users/ianrowe/git/Reflex/docs/product-transcript.md (original vision — needed to understand what changed)
 - /Users/ianrowe/git/Reflex/ENGINEERING-SPEC.md (especially Section 1.5 "Changes & Shifts")
-- /Users/ianrowe/git/Reflex/research/run2/cloud-platform-recommendation.md
-- /Users/ianrowe/git/Reflex/research/run2/data-architecture.md
-- /Users/ianrowe/git/Reflex/research/run2/api-backend-architecture.md
-- /Users/ianrowe/git/Reflex/research/run2/frontend-ux-architecture.md
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md (for risk context that drove changes)
+- /Users/ianrowe/git/Reflex/research/architecture/cloud-platform-recommendation.md
+- /Users/ianrowe/git/Reflex/research/architecture/data-architecture.md
+- /Users/ianrowe/git/Reflex/research/architecture/api-backend-architecture.md
+- /Users/ianrowe/git/Reflex/research/architecture/frontend-ux-architecture.md
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (for risk context that drove changes)
 
 ## Your Sections
 
@@ -830,16 +830,16 @@ Create slides for:
 Create slides for:
 6. Section divider: "Engineering Specification"
 7. Cloud Platform Recommendation: Which cloud was chosen, the 3 strongest reasons why, cost projection for Year 1 (students). Use a two-column comparison if the decision was close.
-   - deep_dive: research/run2/cloud-platform-recommendation.md
+   - deep_dive: research/architecture/cloud-platform-recommendation.md
 8. System Architecture Overview: Visual slide — describe the high-level component diagram for the assembler to build with python-pptx shapes. Show: Data Ingestion → Trigger Engine → LP Orchestrator → AI Translation → Messaging, with Constraint Registry and Dashboards as side flows
 9. Technology Stack: Table slide with columns: Component | Technology | Why Chosen | Alternative Considered
 10. Data Architecture: Key data flows, storage choices (time-series vs relational vs document), database technologies
-    - deep_dive: research/run2/data-architecture.md
+    - deep_dive: research/architecture/data-architecture.md
 11. Service Architecture: Service boundaries diagram description, monolith-first vs microservices decision, communication patterns
-    - deep_dive: research/run2/api-backend-architecture.md
+    - deep_dive: research/architecture/api-backend-architecture.md
 12. AI/LLM Integration: How Claude is used (translation, constraint extraction, pattern detection), validation approach, what happens when Claude is wrong, cost projections
 13. Frontend & Operator UX: Dashboard overview, Slack/Teams bot design, industrial UX considerations (dark mode, glove-friendly, control room readability)
-    - deep_dive: research/run2/frontend-ux-architecture.md
+    - deep_dive: research/architecture/frontend-ux-architecture.md
 14. Security Architecture: OT/IT boundary, edge vs cloud split, encryption, compliance (ISA/IEC 62443)
 15. Risk Mitigations Built In: Table slide mapping top 5-7 risks → specific architectural decisions that address them
 16. Full spec reference slide
@@ -962,13 +962,13 @@ You are a presentation content strategist specializing in implementation plannin
 
 FIRST: Read these files thoroughly:
 - /Users/ianrowe/git/Reflex/ENGINEERING-SPEC.md (Section 11: Implementation Roadmap, Section 12: Open Questions)
-- /Users/ianrowe/git/Reflex/research/run1/EXECUTIVE-SUMMARY.md (phased approach recommendations)
+- /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (phased approach recommendations)
 - /Users/ianrowe/git/Reflex/docs/architecture-qa.md (especially the "For the Student Team" section)
 
 Also scan all files in the repo to build the complete file index:
 - /Users/ianrowe/git/Reflex/docs/product-transcript.md
-- /Users/ianrowe/git/Reflex/research/run1/ (all files)
-- /Users/ianrowe/git/Reflex/research/run2/ (all files)
+- /Users/ianrowe/git/Reflex/research/risks/ (all files)
+- /Users/ianrowe/git/Reflex/research/architecture/ (all files)
 - /Users/ianrowe/git/Reflex/docs/ (all files)
 - /Users/ianrowe/git/Reflex/ENGINEERING-SPEC.md
 

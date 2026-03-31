@@ -112,7 +112,7 @@ type: divider
 title: "Risk Analysis"
 subtitle: "What Could Kill This"
 speaker_notes: "Okay — now that we've seen the opportunity, let's be completely honest about what could go wrong. We ran a deep adversarial research process across technical, business, and adoption risks. We found 33 individual risks, deduplicated to 20 unique ones, and scored them on severity, likelihood, and timeline impact. Some of these findings fundamentally change how we need to build. I'd rather we hear this now than learn it the hard way at a customer site."
-deep_dive: "research/run1/EXECUTIVE-SUMMARY.md"
+deep_dive: "research/risks/EXECUTIVE-SUMMARY.md"
 ---END---
 
 ---SLIDE---
@@ -125,7 +125,7 @@ bullets:
 - "4. The market is smaller and slower than we projected. EIA data shows 60 mid-size US refineries, not 80-120. Real beachhead: 12-24 sites. Sales cycles: 9-18 months. Realistic Year 3 ARR: $2-3M, not $8-15M."
 - "5. Deploying AI in a refinery triggers OSHA PSM regulations, MOC requirements, and union bargaining — 'it's just Slack messages' doesn't exempt us from federal safety law."
 speaker_notes: "I want to be blunt about these. Number one: Microsoft literally says 'do not do this' about server-side Excel automation. We're building our entire product on top of something the vendor explicitly doesn't support. Number two: Slack doesn't reach the people who need to act. Operators work in hazardous zones with DCS consoles, not chat apps. Number three: nobody in this industry will take a meeting with us without a domain expert on the team. Number four: we overstated the market by 15-40%. Number five: OSHA PSM law applies to us whether we like it or not. These are all solvable — but we need to solve them before we build, not after."
-deep_dive: "research/run1/EXECUTIVE-SUMMARY.md"
+deep_dive: "research/risks/EXECUTIVE-SUMMARY.md"
 ---END---
 
 ---SLIDE---
@@ -138,7 +138,7 @@ bullets:
 - "CRITICAL — LLM hallucination: LLMs repeat planted numerical errors in 83% of cases. Misreading '2.3 MBPD' as '23 MBPD' in a refinery is not a UX bug — it's a safety incident."
 - "CRITICAL — Shutdown/startup floods: 50% of safety incidents occur during startup/shutdown. If Reflex fires recommendations during these periods, operators get flooded at exactly the moment they can't process them."
 speaker_notes: "Let's dig into the technical risks. The Excel COM problem is existential — we literally cannot build this product if we can't reliably automate Excel in an unattended environment, and Microsoft explicitly says we shouldn't. The LP solver landscape is equally critical — if most target customers use PIMS instead of Excel Solver, our whole architecture is wrong. We need to survey 10-15 refineries immediately to find out. The LLM hallucination risk is real but solvable — we just need to never let Claude touch raw numbers. Extract them programmatically, use the LLM only for natural language. And the shutdown flood problem requires an operating mode detection system from day one."
-deep_dive: "research/run1/technical-risks.md"
+deep_dive: "research/risks/technical-risks.md"
 ---END---
 
 ---SLIDE---
@@ -158,7 +158,7 @@ table:
     - ["Historian compression artifacts / stale data", "HIGH", "Build Data Quality Gateway; audit compression settings per tag"]
     - ["Excel single-threaded performance floor (30sec-7min)", "HIGH", "Queue backpressure; coalesce triggers; mandate 64-bit Excel"]
 speaker_notes: "Here's the full technical risk table, severity-ranked. Five critical risks, five high risks. The architectural takeaway is that we need to build three things the transcript never mentions: a Reflex Edge Agent for Purdue-compliant deployment, a Data Quality Gateway between historian data and trigger logic, and an operating mode detection system. We also need to decouple all numbers from the LLM. These aren't optional improvements — they're prerequisites for the product to function in a real refinery."
-deep_dive: "research/run1/technical-risks.md"
+deep_dive: "research/risks/technical-risks.md"
 ---END---
 
 ---SLIDE---
@@ -171,7 +171,7 @@ bullets:
 - "HIGH — Overstated TAM: EIA data shows exactly 60 mid-size US refineries (50K-200K bbl/day), ~68-70 including Canada. Many already use commercial LP tools. Realistic beachhead: 12-24 underserved refineries. Year 3 ARR: $2-3M, not $8-15M."
 - "HIGH — Excel inertia: If refineries survived 30+ years on Excel, the urgency to switch is genuinely low. Mass retirement of experienced planners (the only champions for new tools) and failed digital transformation history create deep skepticism."
 speaker_notes: "The business risks are sobering. The credibility gap is non-negotiable — we need a domain expert on the team before we talk to a single refinery. The sales cycle is real: 9-18 months minimum, with sign-off needed from operations, engineering, IT, OT security, safety, procurement, legal, and sometimes C-suite. And the market is smaller than we thought. EIA data shows 60 mid-size US refineries, not 80-120. Many already use commercial tools. Our realistic beachhead is 12-24 sites. That means every lost deal permanently shrinks our market by 4-8%. We need to be flawless."
-deep_dive: "research/run1/business-risks.md"
+deep_dive: "research/risks/business-risks.md"
 ---END---
 
 ---SLIDE---
@@ -191,7 +191,7 @@ table:
     - ["Acquisition exit valuation optimistic at high end", "MEDIUM", "Yes — target $100-150M at $12-15M ARR (6.7-10x multiple)"]
     - ["Pricing may be too low for value delivered", "LOW-MEDIUM", "Yes — tier pricing, expand ACV over time to $200-500K"]
 speaker_notes: "Here's the full business risk table. Two critical, four high, and the rest medium or lower. The good news: most of these are addressable. The credibility gap requires a hire. The TAM requires resetting expectations. The sales cycle requires a design partner strategy and EPC partnerships. The energy transition means we need to plan for a 5-7 year window and target Gulf Coast refineries that will run through 2035+. And interestingly, we might be underpricing — comparable industrial software costs $200-500K/year, and if we deliver $500K+ in margin improvement, $125K captures only 25% of value."
-deep_dive: "research/run1/business-risks.md"
+deep_dive: "research/risks/business-risks.md"
 ---END---
 
 ---SLIDE---
@@ -204,7 +204,7 @@ bullets:
 - "CRITICAL — OSHA PSM: A tool that changes how operators make decisions about process parameters triggers Management of Change requirements. 'Just Slack messages' provides no legal exemption. The 2005 Texas City explosion was partly attributed to MOC failures."
 - "CRITICAL — Union/labor: USW 2026 bargaining covers ~30,000 refinery workers and specifically targets AI monitoring. Tracking operator overrides with dollar costs = potential NLRA violation."
 speaker_notes: "The adoption risks hit hardest because they challenge core product assumptions. We assumed operators would see Slack messages — they won't. They work on DCS consoles in hazardous zones. We assumed operators would type feedback — they can't. Chemical-resistant gloves make phone keyboards unusable. We assumed 'no training required' — it violates OSHA PSM law. And we assumed we could track operator overrides with dollar costs — the USW union is actively bargaining against exactly that. Each of these has a solution, but the solutions require redesigning how we think about the user. The primary user isn't the field operator — it's the shift supervisor and process engineer who works at a desk with IT network access."
-deep_dive: "research/run1/adoption-risks.md"
+deep_dive: "research/risks/adoption-risks.md"
 ---END---
 
 ---SLIDE---
@@ -224,7 +224,7 @@ table:
     - ["Cybersecurity procurement bottleneck", "MEDIUM", "6-18 month security review at critical infrastructure sites"]
     - ["Price trigger threshold miscalibration ($2/bbl too static)", "MEDIUM", "Needs volatility-adjusted thresholds, not fixed dollar amount"]
 speaker_notes: "Four critical adoption risks, four high, two medium. The shift handover one deserves emphasis — Piper Alpha in 1988, 167 people died because a single constraint wasn't communicated at shift change. Our constraint registry maps to an existing concept called 'Standing Orders' in tools like Hexagon j5, but it only works if it's actively surfaced during handover and requires acknowledgment. The dashboard blame culture risk is counterintuitive — research shows that loss-framing feedback actually makes performance worse a third of the time. We need to track overrides by equipment, not by person, and frame everything as 'value captured' not 'value lost.'"
-deep_dive: "research/run1/adoption-risks.md"
+deep_dive: "research/risks/adoption-risks.md"
 ---END---
 
 ---SLIDE---
@@ -245,7 +245,7 @@ table:
     - ["9", "Shutdown/startup floods + alert fatigue + trigger calibration", "64", "Triggers", "GO — build operating mode detection"]
     - ["10", "Brutal sales cycle in tiny, concentrating market", "75", "Sales", "GO — design partner + EPC strategy"]
 speaker_notes: "This is the unified risk matrix — all risks scored and ranked. The top 4 are CONDITIONAL go/no-go, meaning we have specific validation steps that must pass before we commit to building. If we can't automate Excel reliably for 72+ hours on a real LP model, if most target customers use PIMS instead of Excel Solver, if we can't recruit a domain expert, or if we can't redesign the delivery channel — those are each individually project-killing. Risks 5-10 are GO with specific architectural requirements built in from day one. The key chain is R3 determines R1 determines R9 determines R14 — the LP solver question must be answered first because every downstream technical decision depends on it."
-deep_dive: "research/run1/RISK-MATRIX.md"
+deep_dive: "research/risks/RISK-MATRIX.md"
 ---END---
 
 ---SLIDE---
@@ -259,5 +259,5 @@ bullets:
 - "4. Operating mode detection — simple state machine (Normal/Startup/Shutdown/Upset/Turnaround/Emergency). Auto-suppress optimization triggers during non-normal modes. Prevents catastrophic trust destruction. Cost: ~1-2 weeks."
 - "5. Shadow mode deployment — show recommendations alongside existing workflows for 2-4 weeks without expecting action. Curate first 10-20 recommendations with human review. Matches Imubit's proven adoption pattern. Cost: $0 (deployment strategy, not a feature)."
 speaker_notes: "Here's the good news. Five changes that cost almost nothing but substantially reduce our risk profile. 'Bring your own data' is free and eliminates market data licensing entirely. Decoupling numbers from the LLM is a week of work and eliminates the safety-critical hallucination risk. Structured constraint input is two weeks and eliminates both the PPE problem and the NLP accuracy problem. Operating mode detection is one to two weeks and prevents the alert fatigue scenario that would permanently destroy operator trust. And shadow mode is a deployment strategy that costs nothing but matches the proven adoption pattern from Imubit and other industrial AI tools. These five things together cost about a month of engineering time and eliminate or reduce six of our top ten risks."
-deep_dive: "research/run1/EXECUTIVE-SUMMARY.md"
+deep_dive: "research/risks/EXECUTIVE-SUMMARY.md"
 ---END---

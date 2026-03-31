@@ -128,7 +128,7 @@ right_column:
   - "Year 1 cost: $8-75/month ($100-900/year)"
   - "Covered by Azure for Students credits"
 speaker_notes: "The cloud decision came down to one factor: industrial IoT connectivity is Reflex's hardest technical problem, and Azure is materially better at it. Azure IoT Edge has a first-party OPC-UA Publisher module that's open source and Microsoft-maintained. AWS requires custom OPC-UA integration. PI Integrator for Azure is an official AVEVA product that streams PI historian data directly into Azure Event Hubs — no equivalent exists for AWS. Microsoft Defender for IoT provides Purdue Model-aware OT network monitoring. And since refineries are overwhelmingly Microsoft 365 shops, Teams integration is native. But we're not all-in on Azure — we use the direct Anthropic API for Claude to avoid cloud lock-in, GitHub Actions for CI/CD, and TimescaleDB instead of Azure Data Explorer because ADX costs $90+ per month minimum, which is overkill for 100 sensor tags."
-deep_dive: "research/run2/cloud-platform-recommendation.md"
+deep_dive: "research/architecture/cloud-platform-recommendation.md"
 ---END---
 
 ---SLIDE---
@@ -172,7 +172,7 @@ bullets:
   - "Cost: $20-50/month managed PostgreSQL — sufficient for 5+ sites"
   - "LISTEN/NOTIFY for real-time events between modules (no separate message broker needed at pilot scale)"
 speaker_notes: "The data architecture principle is radical simplicity: PostgreSQL for everything. TimescaleDB is a PostgreSQL extension, not a separate product, so we get time-series capabilities — hypertables, automatic compression, continuous aggregates, retention policies — while keeping full PostgreSQL functionality like JOINs, foreign keys, transactions, and JSONB. This matters because nearly every intelligence feature requires joining time-series data with relational data. Coefficient reconciliation needs actual yields over time joined with LP model predictions. Opportunity cost tracking needs production rates joined with recommendation and override history. With a single database, these are trivial SQL queries. With separate InfluxDB and PostgreSQL, each query requires cross-database data movement. Storage is tiny — about 140 MB per year per site with compression. A $20-50/month managed instance handles everything."
-deep_dive: "research/run2/data-architecture.md"
+deep_dive: "research/architecture/data-architecture.md"
 ---END---
 
 ---SLIDE---
@@ -188,7 +188,7 @@ bullets:
   - "ACID transactions across modules — no saga patterns or eventual consistency"
   - "When to extract a service: independent scaling needed, different runtime, team grows large enough"
 speaker_notes: "We chose a modular monolith over microservices for a simple reason: a team of 3-5 students cannot manage N services times logging plus monitoring plus deployment plus versioning. A single deployment, single repo, with ACID transactions across modules, in-process function calls, and stack traces for debugging is dramatically simpler to build and operate. The only argument for a separate service is the LP Orchestrator, which inherently runs on a separate Windows machine due to Excel COM requirements. That's handled as a single Celery worker, not a full microservices architecture. The key design choice: module boundaries are enforced through Python interfaces, owned tables, and event-driven communication. This means if we ever need to extract a module — say the LP Orchestrator needs to scale independently at 10+ concurrent solves — we can do it without rewriting the whole system."
-deep_dive: "research/run2/api-backend-architecture.md"
+deep_dive: "research/architecture/api-backend-architecture.md"
 ---END---
 
 ---SLIDE---
@@ -220,7 +220,7 @@ bullets:
   - "SSE for real-time recommendations; HTTP polling for analytics — works through corporate proxies"
   - "Tech: Next.js 15, ECharts (analytics), Tremor (KPIs), Mantine + Shadcn/ui, TanStack Query + Zustand"
 speaker_notes: "The frontend follows ISA-101 High Performance HMI and ISA-18.2 alarm management standards. These aren't nice-to-haves — SCADA operators experience cognitive load 340% above baseline during peak operations. One recorded industrial incident had 275 alarms in 11 minutes. Interface simplicity is a safety requirement. The design is built for worst case: 2AM, 12-hour shift, fatigued supervisor, upset conditions. Greyscale backgrounds with color used only for status deviation. The 3-second rule means any dashboard screen conveys its primary status at a glance. Progressive disclosure shows conclusions by default — details on demand, diagnostics behind explicit drill-down. The audience separation is architecturally enforced: the API literally does not return individual operator override costs for the management role. Shadow mode during the first 2-4 weeks shows recommendations alongside existing workflows, using language like 'Note Agreement' instead of 'Acknowledge' — letting operators build calibrated trust before the system asks them to act."
-deep_dive: "research/run2/frontend-ux-architecture.md"
+deep_dive: "research/architecture/frontend-ux-architecture.md"
 ---END---
 
 ---SLIDE---
@@ -271,7 +271,7 @@ bullets:
   - "Year 2 (10 sites, ~1,000 tags): $220-580/month ($2,600-7,000/year)"
   - "At $75K/site x 10 sites = $750K ARR — cloud costs are <1% of revenue"
 speaker_notes: "Infrastructure costs are not a meaningful concern at any realistic scale. In Year 1, nearly everything runs on free tiers. Azure Container Apps has an always-free tier with 2 million requests per month. Functions, Bot Service, Key Vault — all free. PostgreSQL is free for 12 months with student credits. The only real costs are Claude API at $7-18/month and potentially $15/month for the Windows VM if student credits don't cover it. At 10 sites in Year 2, total cloud costs are $2,600 to $7,000 per year — less than 1% of the $750K in annual recurring revenue those sites generate. Cloud infrastructure is definitively not a cost driver for this business."
-deep_dive: "research/run2/cloud-platform-recommendation.md"
+deep_dive: "research/architecture/cloud-platform-recommendation.md"
 ---END---
 
 ---SLIDE---
@@ -280,11 +280,11 @@ title: "Full Specification Reference"
 subtitle: "Everything documented, everything traceable"
 bullets:
   - "ENGINEERING-SPEC.md — Complete engineering specification (synthesizes all research)"
-  - "research/run1/EXECUTIVE-SUMMARY.md — Risk analysis and feasibility assessment"
-  - "research/run2/cloud-platform-recommendation.md — Azure vs AWS detailed comparison"
-  - "research/run2/data-architecture.md — Database design, schemas, data flows"
-  - "research/run2/api-backend-architecture.md — Service boundaries, API contracts, module design"
-  - "research/run2/frontend-ux-architecture.md — Dashboard specs, ISA-101 compliance, component hierarchy"
+  - "research/risks/EXECUTIVE-SUMMARY.md — Risk analysis and feasibility assessment"
+  - "research/architecture/cloud-platform-recommendation.md — Azure vs AWS detailed comparison"
+  - "research/architecture/data-architecture.md — Database design, schemas, data flows"
+  - "research/architecture/api-backend-architecture.md — Service boundaries, API contracts, module design"
+  - "research/architecture/frontend-ux-architecture.md — Dashboard specs, ISA-101 compliance, component hierarchy"
   - "Every architectural decision traces to a specific risk from our 20-risk matrix"
   - "13 documented shifts from original plan — all with rationale and research backing"
 speaker_notes: "Every detail we've covered today is documented and traceable. The engineering spec synthesizes findings from two full research rounds — Run 1 identified 20 risks across technical, business, and adoption domains; Run 2 produced deep-dive architecture recommendations for cloud platform, data, backend, and frontend. Every decision traces to a specific risk. If anyone on the team wants to understand why we chose TimescaleDB over InfluxDB, or why the trigger engine uses percentage thresholds, or why the dashboard tracks overrides by equipment — the answer is in the spec with the specific research finding that drove it. This isn't a theoretical architecture document. It's a build plan."

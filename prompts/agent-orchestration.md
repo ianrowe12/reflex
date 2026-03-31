@@ -514,7 +514,7 @@ THEN: Read /Users/ianrowe/git/Reflex/ENGINEERING-SPEC.md thoroughly to understan
 
 ## Create the following diagrams
 
-Write ALL diagrams to: /Users/ianrowe/git/Reflex/docs/architecture-diagrams.md
+Write ALL diagrams to: /Users/ianrowe/git/Reflex/docs/design/architecture-diagrams.md
 
 1. **System Context Diagram (C4 Level 1)**:
    - Mermaid diagram showing Reflex as a system in context with: Process Historian, Market Data Feeds, Excel LP Models, Slack/Teams, Claude API, Operators, LP Planners, Plant Management
@@ -581,7 +581,7 @@ THEN: Read these files thoroughly:
 ## Create Two Documents
 
 ### Document 1: Architecture Decision Records
-Write to: /Users/ianrowe/git/Reflex/docs/architecture-decisions.md
+Write to: /Users/ianrowe/git/Reflex/docs/design/architecture-decisions.md
 
 For EVERY significant decision in the engineering spec, create an ADR entry with:
 - **Decision**: What was decided
@@ -610,7 +610,7 @@ Cover at minimum:
 - Multi-tenancy model
 
 ### Document 2: Q&A Reference
-Write to: /Users/ianrowe/git/Reflex/docs/architecture-qa.md
+Write to: /Users/ianrowe/git/Reflex/docs/design/architecture-qa.md
 
 Create a comprehensive FAQ organized by topic. Write 50+ questions and detailed answers that someone unfamiliar with the project might ask. Include:
 
@@ -882,8 +882,8 @@ visual_description: "(optional) Diagram to build with shapes"
 You are a presentation content strategist specializing in architecture visualization and decision communication. Your job is to create slide content for Sections 5-6 of the Reflex team walkthrough presentation.
 
 FIRST: Read these files thoroughly:
-- /Users/ianrowe/git/Reflex/docs/architecture-diagrams.md (all Mermaid diagrams)
-- /Users/ianrowe/git/Reflex/docs/architecture-decisions.md (all ADRs)
+- /Users/ianrowe/git/Reflex/docs/design/architecture-diagrams.md (all Mermaid diagrams)
+- /Users/ianrowe/git/Reflex/docs/design/architecture-decisions.md (all ADRs)
 - /Users/ianrowe/git/Reflex/ENGINEERING-SPEC.md (for context)
 
 ## Your Sections
@@ -898,15 +898,15 @@ Since Mermaid can't render natively in PowerPoint, your job is to translate the 
 Create slides for:
 1. Section divider: "Architecture Diagrams"
 2. System Context Diagram: Translate the C4 Level 1 Mermaid diagram into a visual_description. List every node (shape, label, color), every connection (from → to, label), and the layout direction. Group nodes into subgraphs (e.g., "Refinery Side", "Cloud", "External"). Keep it to 8-10 nodes max for readability.
-   - deep_dive: docs/architecture-diagrams.md
+   - deep_dive: docs/design/architecture-diagrams.md
 3. Data Flow — Happy Path: Translate the sequence diagram into a simplified left-to-right flow visual_description. Show the key steps: Historian data arrives → Trigger evaluates → LP model runs → Claude translates → Slack delivers → Operator acts. Label each arrow with what flows.
-   - deep_dive: docs/architecture-diagrams.md
+   - deep_dive: docs/design/architecture-diagrams.md
 4. Data Flow — Feedback Path: Translate the feedback sequence diagram. Show: Operator rejects → Constraint extracted → LP re-solves → Revised recommendation delivered. Highlight the constraint registry as a persistent store.
-   - deep_dive: docs/architecture-diagrams.md
+   - deep_dive: docs/design/architecture-diagrams.md
 5. Network Architecture: Translate the OT/IT boundary diagram. Show the refinery firewall, edge component, secure tunnel, and cloud components. Use red/orange for security boundaries.
-   - deep_dive: docs/architecture-diagrams.md
+   - deep_dive: docs/design/architecture-diagrams.md
 6. Implementation Phases: Translate the Gantt chart into a simplified 3-row timeline visual_description showing Phase 1 (MVP), Phase 2 (Beta), Phase 3 (GA) with key milestones and what's in each phase.
-   - deep_dive: docs/architecture-diagrams.md
+   - deep_dive: docs/design/architecture-diagrams.md
 
 For each visual_description, be EXTREMELY specific:
 - Name every node: "Rectangle, label='Trigger Engine', color=#27AE60, position=center-left"
@@ -922,7 +922,7 @@ Create slides for:
     - Slide 2: Data & Integration Decisions (database choices, historian connector, Excel integration, market data source)
     - Slide 3: AI & UX Decisions (LLM provider, constraint extraction approach, messaging channel, frontend framework)
     - Table columns: Decision | What We Chose | Key Reason | Risk It Addresses
-    - deep_dive: docs/architecture-decisions.md
+    - deep_dive: docs/design/architecture-decisions.md
 
 ### Speaker Notes Guidance
 - For diagram slides: speaker notes should walk through the diagram step by step, as if pointing at each component
@@ -963,7 +963,7 @@ You are a presentation content strategist specializing in implementation plannin
 FIRST: Read these files thoroughly:
 - /Users/ianrowe/git/Reflex/ENGINEERING-SPEC.md (Section 11: Implementation Roadmap, Section 12: Open Questions)
 - /Users/ianrowe/git/Reflex/research/risks/EXECUTIVE-SUMMARY.md (phased approach recommendations)
-- /Users/ianrowe/git/Reflex/docs/architecture-qa.md (especially the "For the Student Team" section)
+- /Users/ianrowe/git/Reflex/docs/design/architecture-qa.md (especially the "For the Student Team" section)
 
 Also scan all files in the repo to build the complete file index:
 - /Users/ianrowe/git/Reflex/docs/product-transcript.md
@@ -1046,7 +1046,7 @@ Install python-pptx first: pip install python-pptx
 4. /Users/ianrowe/git/Reflex/presentation/section4-roadmap-and-next.md (Sections 7-8: Roadmap + Next Steps)
 
 Also read for context if needed:
-- /Users/ianrowe/git/Reflex/docs/architecture-diagrams.md (Mermaid source for diagram slides)
+- /Users/ianrowe/git/Reflex/docs/design/architecture-diagrams.md (Mermaid source for diagram slides)
 
 ## Output
 Write the .pptx to: /Users/ianrowe/git/Reflex/Reflex-Team-Walkthrough.pptx
@@ -1096,7 +1096,7 @@ Write the .pptx to: /Users/ianrowe/git/Reflex/Reflex-Team-Walkthrough.pptx
   - Use connectors (`add_connector`) with labels for arrows between shapes
   - Use dashed-border rectangles (no fill, dashed outline) for grouping subgraphs
   - Color shapes according to the visual_description, defaulting to the color scheme above
-  - If a visual_description is too complex to render perfectly, simplify to the key components and add a note "See docs/architecture-diagrams.md for full detail"
+  - If a visual_description is too complex to render perfectly, simplify to the key components and add a note "See docs/design/architecture-diagrams.md for full detail"
 **two-column**: Title at top, left column on left half, right column on right half, with a thin vertical divider line. Use contrasting subtle background tints if the content represents before/after.
 
 ### Quality Checks
@@ -1108,7 +1108,7 @@ After building the PPTX:
 5. Verify no slide has more than 6 bullet points
 6. Open and re-read the file to check for rendering issues
 
-If any visual_description is too ambiguous to render as shapes, fall back to a clean bulleted description of the diagram with a prominent "Render at mermaid.live — see docs/architecture-diagrams.md" note.
+If any visual_description is too ambiguous to render as shapes, fall back to a clean bulleted description of the diagram with a prominent "Render at mermaid.live — see docs/design/architecture-diagrams.md" note.
 ```
 
 ---

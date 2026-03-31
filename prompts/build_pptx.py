@@ -1042,7 +1042,7 @@ def build_visual_slide(prs, data, num):
     # Diagram reference
     add_textbox(
         slide, Inches(2), Inches(5.5), Inches(8), Inches(0.4),
-        "Render at mermaid.live — see docs/architecture-diagrams.md for full detail",
+        "Render at mermaid.live — see docs/design/architecture-diagrams.md for full detail",
         font_size=14, color=CLR_GOLD, align=PP_ALIGN.CENTER, italic=True
     )
 

@@ -2,18 +2,23 @@
 
 import ReactECharts from "echarts-for-react";
 import { flowNetworkData } from "@/data/mock-data";
+import { useChartTheme } from "@/lib/chart-theme";
+import { useIsDark } from "@/lib/theme";
 
 export function FlowNetworkChart() {
+  const t = useChartTheme();
+  const isDark = useIsDark();
+
   const option = {
     tooltip: {
       trigger: "axis" as const,
       axisPointer: { type: "shadow" as const },
-      backgroundColor: "#111827",
-      borderColor: "#111827",
+      backgroundColor: t.tooltipBg,
+      borderColor: t.tooltipBorder,
       borderRadius: 4,
       textStyle: {
-        color: "#FFFFFF",
-        fontFamily: "var(--font-ibm-plex-mono), monospace",
+        color: t.tooltipText,
+        fontFamily: t.fontMono,
         fontSize: 12,
       },
       formatter: (params: Array<{ name: string; value: number }>) => {
@@ -34,9 +39,9 @@ export function FlowNetworkChart() {
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontFamily: "var(--font-ibm-plex-mono), monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
       },
     },
     yAxis: {
@@ -46,15 +51,15 @@ export function FlowNetworkChart() {
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontFamily: "var(--font-ibm-plex-mono), monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
         formatter: "{value}%",
       },
       splitLine: {
         lineStyle: {
           type: "dashed" as const,
-          color: "#F3F4F6",
+          color: t.splitLine,
         },
       },
     },
@@ -63,7 +68,7 @@ export function FlowNetworkChart() {
         type: "bar" as const,
         data: flowNetworkData.map((d) => d.performance),
         itemStyle: {
-          color: "#0D9488",
+          color: t.accent,
           borderRadius: [4, 4, 0, 0],
         },
         barMaxWidth: 36,
@@ -74,15 +79,16 @@ export function FlowNetworkChart() {
   return (
     <div>
       <ReactECharts
+        key={isDark ? "d" : "l"}
         option={option}
         style={{ height: "220px", width: "100%" }}
         opts={{ renderer: "canvas" }}
       />
       <div className="flex items-center gap-2 px-1 mt-1">
-        <span className="text-xs font-mono text-[#9CA3AF]">
+        <span className="text-xs font-mono text-text-muted">
           Network Health Index:
         </span>
-        <span className="text-xs font-mono font-semibold text-[#0D9488]">
+        <span className="text-xs font-mono font-semibold text-accent">
           94.5
         </span>
       </div>

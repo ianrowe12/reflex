@@ -207,7 +207,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
       {/* Modal card */}
       <div
         className={clsx(
-          "relative w-full max-w-2xl bg-white rounded shadow-elevated mx-4 transition-transform duration-150",
+          "relative w-full max-w-2xl bg-surface-card rounded shadow-elevated mx-4 transition-transform duration-150",
           visible ? "scale-100" : "scale-95",
         )}
       >
@@ -215,7 +215,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
         <button
           type="button"
           onClick={handleClose}
-          className="absolute top-3 right-3 p-1.5 rounded text-[#9CA3AF] hover:text-[#111827] hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+          className="absolute top-3 right-3 p-1.5 rounded text-text-muted hover:text-text-primary hover:bg-surface-hover transition-colors cursor-pointer"
           aria-label="Close wizard"
         >
           <X size={18} />
@@ -230,7 +230,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
           <CompletedSummary labels={summaryLabels} />
 
           {/* Step heading */}
-          <h2 className="text-lg font-headline font-semibold text-[#111827]">
+          <h2 className="text-lg font-headline font-semibold text-text-primary">
             {stepTitles[state.step]}
           </h2>
 
@@ -290,7 +290,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="wizard-manual-title"
-                  className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF]"
+                  className="text-[10px] font-headline uppercase tracking-wider text-text-muted"
                 >
                   Short Title (optional)
                 </label>
@@ -306,14 +306,14 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                   }
                   placeholder="e.g. P-101 bearing concern"
                   maxLength={80}
-                  className="h-10 px-3 rounded border border-[#E5E7EB] bg-white text-sm font-body text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#0D9488] transition-colors"
+                  className="h-10 px-3 rounded border border-surface-border bg-surface-card text-sm font-body text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent transition-colors"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="wizard-manual-description"
-                  className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF]"
+                  className="text-[10px] font-headline uppercase tracking-wider text-text-muted"
                 >
                   Describe the Constraint
                 </label>
@@ -328,16 +328,16 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                   }
                   placeholder="e.g. Pump P-101 is making unusual vibrations, suspect bearing failure within 24 hours..."
                   rows={6}
-                  className="px-3 py-2 rounded border border-[#E5E7EB] bg-white text-sm font-body text-[#111827] placeholder:text-[#9CA3AF] resize-none focus:outline-none focus:border-[#0D9488] transition-colors"
+                  className="px-3 py-2 rounded border border-surface-border bg-surface-card text-sm font-body text-text-primary placeholder:text-text-muted resize-none focus:outline-none focus:border-accent transition-colors"
                 />
                 <div className="flex items-center justify-between text-[10px] font-body">
-                  <span className="text-[#9CA3AF]">Minimum 20 characters</span>
+                  <span className="text-text-muted">Minimum 20 characters</span>
                   <span
                     className={clsx(
                       "font-mono",
                       manualDescriptionLength >= 20
-                        ? "text-[#0D9488]"
-                        : "text-[#9CA3AF]",
+                        ? "text-accent"
+                        : "text-text-muted",
                     )}
                   >
                     {manualDescriptionLength} / 20
@@ -350,7 +350,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
           {/* ---- Step 4: Set Severity ---- */}
           {state.step === 4 && (
             <div className="flex flex-col gap-5">
-              <p className="text-sm font-body text-[#4B5563] -mt-2">
+              <p className="text-sm font-body text-text-secondary -mt-2">
                 How much should capacity be reduced?
               </p>
 
@@ -376,8 +376,8 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                       className={clsx(
                         "h-16 rounded border text-sm font-mono font-medium transition-colors cursor-pointer",
                         isSelected
-                          ? "border-[#0D9488] bg-[#F0FDFA] text-[#0D9488]"
-                          : "border-[#E5E7EB] bg-white text-[#111827] hover:border-[#9CA3AF] hover:bg-[#F9FAFB]",
+                          ? "border-accent bg-accent-muted text-accent"
+                          : "border-surface-border bg-surface-card text-text-primary hover:border-text-muted hover:bg-surface-hover",
                       )}
                     >
                       {s.label}
@@ -388,7 +388,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
 
               {/* Duration */}
               <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF]">
+                <span className="text-[10px] font-headline uppercase tracking-wider text-text-muted">
                   Model Duration
                 </span>
                 <div className="grid grid-cols-4 gap-3">
@@ -402,8 +402,8 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                       className={clsx(
                         "h-12 rounded border text-xs font-body font-medium transition-colors cursor-pointer",
                         state.duration === d.id
-                          ? "border-[#0D9488] bg-[#F0FDFA] text-[#0D9488]"
-                          : "border-[#E5E7EB] bg-white text-[#111827] hover:border-[#9CA3AF] hover:bg-[#F9FAFB]",
+                          ? "border-accent bg-accent-muted text-accent"
+                          : "border-surface-border bg-surface-card text-text-primary hover:border-text-muted hover:bg-surface-hover",
                       )}
                     >
                       {d.label}
@@ -416,14 +416,14 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
               <div className="flex gap-3">
                 <button
                   type="button"
-                  className="flex items-center gap-2 px-4 h-10 rounded border border-[#E5E7EB] text-xs font-body text-[#4B5563] hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-4 h-10 rounded border border-surface-border text-xs font-body text-text-secondary hover:bg-surface-hover transition-colors cursor-pointer"
                 >
                   <Camera size={14} />
                   Add Photo
                 </button>
                 <button
                   type="button"
-                  className="flex items-center gap-2 px-4 h-10 rounded border border-[#E5E7EB] text-xs font-body text-[#4B5563] hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-4 h-10 rounded border border-surface-border text-xs font-body text-text-secondary hover:bg-surface-hover transition-colors cursor-pointer"
                 >
                   <Mic size={14} />
                   Voice Note
@@ -435,9 +435,9 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
           {/* ---- Step 5: Confirm ---- */}
           {state.step === 5 && (
             <div className="flex flex-col gap-4">
-              <ul className="flex flex-col gap-2 text-sm font-body text-[#111827]">
+              <ul className="flex flex-col gap-2 text-sm font-body text-text-primary">
                 <li className="flex items-center gap-2">
-                  <span className="text-[#4B5563] w-24 shrink-0">Unit:</span>
+                  <span className="text-text-secondary w-24 shrink-0">Unit:</span>
                   <span className="font-medium">
                     {labelForUnit(state.unit)}
                   </span>
@@ -446,7 +446,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                     height="14"
                     viewBox="0 0 14 14"
                     fill="none"
-                    className="text-[#0D9488] ml-auto shrink-0"
+                    className="text-accent ml-auto shrink-0"
                     aria-hidden="true"
                   >
                     <path
@@ -459,7 +459,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                   </svg>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-[#4B5563] w-24 shrink-0">Type:</span>
+                  <span className="text-text-secondary w-24 shrink-0">Type:</span>
                   <span className="font-medium">
                     {labelForType(state.type)}
                   </span>
@@ -468,7 +468,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                     height="14"
                     viewBox="0 0 14 14"
                     fill="none"
-                    className="text-[#0D9488] ml-auto shrink-0"
+                    className="text-accent ml-auto shrink-0"
                     aria-hidden="true"
                   >
                     <path
@@ -481,27 +481,27 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                   </svg>
                 </li>
                 {state.type === "manual" ? (
-                  <li className="flex flex-col gap-2 p-3 rounded border border-[#E5E7EB] bg-[#F9FAFB]">
+                  <li className="flex flex-col gap-2 p-3 rounded border border-surface-border bg-surface-hover">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF]">
+                      <span className="text-[10px] font-headline uppercase tracking-wider text-text-muted">
                         Manual Description
                       </span>
-                      <span className="text-[10px] font-headline uppercase tracking-wider text-[#0D9488] bg-[#F0FDFA] border border-[#0D9488]/30 rounded px-1.5 py-0.5">
+                      <span className="text-[10px] font-headline uppercase tracking-wider text-accent bg-accent-muted border border-accent/30 rounded px-1.5 py-0.5">
                         Manual
                       </span>
                     </div>
                     {state.manualTitle?.trim() && (
-                      <span className="text-sm font-headline font-semibold text-[#111827]">
+                      <span className="text-sm font-headline font-semibold text-text-primary">
                         {state.manualTitle.trim()}
                       </span>
                     )}
-                    <p className="text-sm font-body text-[#111827] whitespace-pre-wrap">
+                    <p className="text-sm font-body text-text-primary whitespace-pre-wrap">
                       {state.manualDescription}
                     </p>
                   </li>
                 ) : (
                   <li className="flex items-center gap-2">
-                    <span className="text-[#4B5563] w-24 shrink-0">
+                    <span className="text-text-secondary w-24 shrink-0">
                       Constraint:
                     </span>
                     <span className="font-medium">
@@ -512,7 +512,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                       height="14"
                       viewBox="0 0 14 14"
                       fill="none"
-                      className="text-[#0D9488] ml-auto shrink-0"
+                      className="text-accent ml-auto shrink-0"
                       aria-hidden="true"
                     >
                       <path
@@ -526,7 +526,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                   </li>
                 )}
                 <li className="flex items-center gap-2">
-                  <span className="text-[#4B5563] w-24 shrink-0">
+                  <span className="text-text-secondary w-24 shrink-0">
                     Severity:
                   </span>
                   <span className="font-medium font-mono">
@@ -537,7 +537,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                     height="14"
                     viewBox="0 0 14 14"
                     fill="none"
-                    className="text-[#0D9488] ml-auto shrink-0"
+                    className="text-accent ml-auto shrink-0"
                     aria-hidden="true"
                   >
                     <path
@@ -550,7 +550,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                   </svg>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-[#4B5563] w-24 shrink-0">
+                  <span className="text-text-secondary w-24 shrink-0">
                     Duration:
                   </span>
                   <span className="font-medium">
@@ -561,7 +561,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                     height="14"
                     viewBox="0 0 14 14"
                     fill="none"
-                    className="text-[#0D9488] ml-auto shrink-0"
+                    className="text-accent ml-auto shrink-0"
                     aria-hidden="true"
                   >
                     <path
@@ -578,13 +578,13 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
           )}
 
           {/* ---- Navigation footer ---- */}
-          <div className="flex items-center justify-between pt-2 border-t border-[#E5E7EB]">
+          <div className="flex items-center justify-between pt-2 border-t border-surface-border">
             {/* Back */}
             {state.step > 1 ? (
               <button
                 type="button"
                 onClick={() => goTo(state.step - 1)}
-                className="flex items-center gap-1 text-sm font-body text-[#4B5563] hover:text-[#111827] transition-colors cursor-pointer"
+                className="flex items-center gap-1 text-sm font-body text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
               >
                 <ChevronLeft size={16} />
                 Back
@@ -598,7 +598,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="w-full ml-4 h-14 rounded bg-[#0D9488] text-white text-sm font-headline font-semibold hover:bg-[#0F766E] transition-colors cursor-pointer"
+                className="w-full ml-4 h-14 rounded bg-accent text-white text-sm font-headline font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
               >
                 Submit Constraint
               </button>
@@ -610,8 +610,8 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                 className={clsx(
                   "flex items-center gap-1 h-10 px-5 rounded text-sm font-headline font-semibold transition-colors cursor-pointer",
                   canContinue
-                    ? "bg-[#0D9488] text-white hover:bg-[#0F766E]"
-                    : "bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed",
+                    ? "bg-accent text-white hover:bg-accent-hover"
+                    : "bg-surface-border text-text-muted cursor-not-allowed",
                 )}
               >
                 Continue to Review

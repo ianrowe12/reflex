@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   description: "AI-powered workflow optimization for mid-market oil refineries",
 };
 
+// Runs before React hydrates. Reads persisted choice (falling back to system
+// preference), sets the `dark` class + colorScheme on <html>, then adds
+// `theme-ready` after the first paint so initial render doesn't animate.
+const themeInitScript = `(function(){try{var s=localStorage.getItem('reflex-theme');var p=window.matchMedia('(prefers-color-scheme: dark)').matches;var t=s||(p?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark');document.documentElement.style.colorScheme=t;requestAnimationFrame(function(){document.documentElement.classList.add('theme-ready');});}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,7 +39,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} h-full`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="h-full antialiased">{children}</body>
     </html>
   );

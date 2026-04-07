@@ -11,9 +11,9 @@ import {
 } from "@/data/mock-data";
 
 const statusBadge: Record<ModelDriftEquipmentRow["status"], string> = {
-  ok: "bg-[#F0FDFA] text-[#0D9488] border border-[#CCFBF1]",
-  watch: "bg-[#FFFBEB] text-[#D97706] border border-[#FDE68A]",
-  drift: "bg-[#FEF2F2] text-[#DC2626] border border-[#FECACA]",
+  ok: "bg-accent-muted text-accent border border-accent-light",
+  watch: "bg-amber-50 dark:bg-amber-500/10 text-status-warning border border-amber-200 dark:border-amber-500/30",
+  drift: "bg-red-50 dark:bg-red-500/10 text-status-critical border border-red-200 dark:border-red-500/30",
 };
 
 function Sparkline({ data }: { data: number[] }) {
@@ -30,7 +30,7 @@ function Sparkline({ data }: { data: number[] }) {
     .join(" ");
   return (
     <svg width={w} height={h} className="inline-block align-middle">
-      <polyline points={points} fill="none" stroke="#D97706" strokeWidth="1.5" />
+      <polyline points={points} fill="none" stroke="currentColor" className="text-status-warning" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -46,19 +46,19 @@ export default function ModelDriftPage() {
       <div>
         <Link
           href="/analytics"
-          className="text-xs font-mono text-[#9CA3AF] hover:text-[#0D9488] transition-colors"
+          className="text-xs font-mono text-text-muted hover:text-accent transition-colors"
         >
           ← Back to Reports
         </Link>
         <div className="flex items-center gap-3 mt-1">
-          <h1 className="font-headline text-xl font-bold text-[#111827]">
+          <h1 className="font-headline text-xl font-bold text-text-primary">
             Model Drift Detail
           </h1>
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-[#FFFBEB] text-[#D97706] border border-[#FDE68A]">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-amber-50 dark:bg-amber-500/10 text-status-warning border border-amber-200 dark:border-amber-500/30">
             Drift Detected
           </span>
         </div>
-        <p className="text-xs font-body text-[#9CA3AF] mt-0.5">
+        <p className="text-xs font-body text-text-muted mt-0.5">
           LP coefficient relationships diverging from real plant behavior
         </p>
       </div>
@@ -73,19 +73,19 @@ export default function ModelDriftPage() {
       {/* Two-column: table + chart */}
       <div className="grid grid-cols-[55fr_45fr] gap-4">
         {/* Equipment-area breakdown */}
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-          <h3 className="text-sm font-headline font-semibold text-[#111827] mb-3">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+          <h3 className="text-sm font-headline font-semibold text-text-primary mb-3">
             Equipment-Area Breakdown
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-[#E5E7EB]">
+                <tr className="border-b border-surface-border">
                   {["Area", "Predicted", "Actual", "Δ", "Δ %", "7-Day", "Status"].map(
                     (h) => (
                       <th
                         key={h}
-                        className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium"
+                        className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium"
                       >
                         {h}
                       </th>
@@ -97,21 +97,21 @@ export default function ModelDriftPage() {
                 {modelDriftByEquipment.map((row) => {
                   const isActive = activeArea === row.area;
                   const deltaColor =
-                    row.delta < 0 ? "text-[#D97706]" : "text-[#0D9488]";
+                    row.delta < 0 ? "text-status-warning" : "text-accent";
                   return (
                     <tr
                       key={row.area}
                       onClick={() => setActiveArea(row.area)}
-                      className={`border-b border-[#F3F4F6] last:border-0 cursor-pointer transition-colors ${
-                        isActive ? "bg-[#F0FDFA]" : "hover:bg-[#F9FAFB]"
+                      className={`border-b border-surface-border-subtle last:border-0 cursor-pointer transition-colors ${
+                        isActive ? "bg-accent-muted" : "hover:bg-surface-hover"
                       }`}
                     >
-                      <td className="py-2 font-body text-[#111827]">{row.area}</td>
-                      <td className="py-2 font-mono text-[#4B5563]">
+                      <td className="py-2 font-body text-text-primary">{row.area}</td>
+                      <td className="py-2 font-mono text-text-secondary">
                         {row.predicted}{" "}
-                        <span className="text-[#9CA3AF]">{row.unit}</span>
+                        <span className="text-text-muted">{row.unit}</span>
                       </td>
-                      <td className="py-2 font-mono text-[#4B5563]">{row.actual}</td>
+                      <td className="py-2 font-mono text-text-secondary">{row.actual}</td>
                       <td className={`py-2 font-mono ${deltaColor}`}>
                         {row.delta > 0 ? "+" : ""}
                         {row.delta}
@@ -141,15 +141,15 @@ export default function ModelDriftPage() {
         </div>
 
         {/* Drift over time */}
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4 flex flex-col min-h-[360px]">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4 flex flex-col min-h-[360px]">
           <div className="flex items-center justify-between mb-3 gap-3">
-            <h3 className="text-sm font-headline font-semibold text-[#111827] truncate">
+            <h3 className="text-sm font-headline font-semibold text-text-primary truncate">
               Predicted vs Actual — {activeArea}
             </h3>
             <select
               value={activeArea}
               onChange={(e) => setActiveArea(e.target.value)}
-              className="text-xs font-mono border border-[#E5E7EB] rounded px-2 py-1 text-[#4B5563] bg-white shrink-0"
+              className="text-xs font-mono border border-surface-border rounded px-2 py-1 text-text-secondary bg-surface-card shrink-0"
             >
               {modelDriftByEquipment.map((r) => (
                 <option key={r.area} value={r.area}>
@@ -165,11 +165,11 @@ export default function ModelDriftPage() {
       </div>
 
       {/* Inline explainer */}
-      <div className="bg-[#F0FDFA] border border-[#CCFBF1] rounded p-4">
-        <h4 className="text-xs font-headline font-bold uppercase tracking-wider text-[#0D9488] mb-2">
+      <div className="bg-accent-muted border border-accent-light rounded p-4">
+        <h4 className="text-xs font-headline font-bold uppercase tracking-wider text-accent mb-2">
           What is model drift?
         </h4>
-        <p className="text-sm font-body text-[#4B5563] leading-relaxed">
+        <p className="text-sm font-body text-text-secondary leading-relaxed">
           Model drift means the LP&apos;s coefficient relationships have diverged
           from real plant behavior — the model&apos;s predictions no longer match
           what the sensors observe. Pumps and valves are usually <em>not</em> the

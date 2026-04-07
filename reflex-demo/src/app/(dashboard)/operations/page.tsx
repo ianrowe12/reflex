@@ -49,7 +49,7 @@ export default function OperationsPage() {
         <div className="flex items-start justify-between">
           {/* Left: Total Realized Opportunity */}
           <div className="flex flex-col gap-1">
-            <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF]">
+            <span className="text-xs font-headline uppercase tracking-wider text-text-muted">
               Total Realized Opportunity
             </span>
             <div className="flex items-baseline gap-3">
@@ -58,13 +58,13 @@ export default function OperationsPage() {
                 prefix="$"
                 suffix="M / day"
                 precision={1}
-                className="text-4xl font-bold text-[#111827]"
+                className="text-4xl font-bold text-text-primary"
               />
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold font-mono bg-[#F0FDFA] text-[#0D9488]">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold font-mono bg-accent-muted text-accent">
                 +{SITE.marginTrend}%
               </span>
             </div>
-            <span className="text-xs font-body text-[#9CA3AF] mt-1">
+            <span className="text-xs font-body text-text-muted mt-1">
               30-day projection: ${projection30.toFixed(0)}M
               {" · "}
               Annual projection: ${projectionAnnual.toFixed(0)}M
@@ -76,7 +76,7 @@ export default function OperationsPage() {
             <select
               defaultValue="all"
               onChange={handleUnitChange}
-              className="px-3 py-2 rounded text-sm font-body border border-[#E5E7EB] bg-white text-[#111827] hover:border-[#0D9488] focus:outline-none focus:border-[#0D9488] focus:ring-1 focus:ring-[#0D9488] cursor-pointer"
+              className="px-3 py-2 rounded text-sm font-body border border-surface-border bg-surface-card text-text-primary hover:border-accent focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent cursor-pointer"
               aria-label="Scope dashboard to unit"
             >
               <option value="all">All Units (Plant View)</option>
@@ -88,14 +88,14 @@ export default function OperationsPage() {
             <button
               type="button"
               onClick={showOptimizeToast}
-              className="px-4 py-2 rounded text-sm font-headline font-semibold bg-[#0D9488] text-white hover:bg-[#0F766E] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded text-sm font-headline font-semibold bg-accent text-white hover:bg-accent-hover transition-colors cursor-pointer"
             >
               Optimize Run
             </button>
             <button
               type="button"
               onClick={showExportToast}
-              className="px-4 py-2 rounded text-sm font-headline font-medium text-[#9CA3AF] hover:text-[#4B5563] transition-colors cursor-pointer"
+              className="px-4 py-2 rounded text-sm font-headline font-medium text-text-muted hover:text-text-secondary transition-colors cursor-pointer"
             >
               Export Log
             </button>
@@ -122,10 +122,10 @@ export default function OperationsPage() {
         {/* Left column: Recommendation Feed */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">
+            <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">
               Recommendation Feed
             </h2>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#F0FDFA] text-[#0D9488]">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-accent-muted text-accent">
               {recommendations.length} active
             </span>
           </div>
@@ -141,8 +141,8 @@ export default function OperationsPage() {
         {/* Right column: Flow Network + Constraint Panel */}
         <div className="flex flex-col gap-5">
           {/* Flow Network chart */}
-          <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-            <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+          <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+            <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
               Refinery Flow Network
             </h2>
             <FlowNetworkChart />
@@ -166,12 +166,12 @@ export default function OperationsPage() {
 
       {/* Toast notifications */}
       {optimizeToast && (
-        <div className="fixed top-4 right-4 z-50 bg-[#0D9488] text-white px-4 py-3 rounded shadow-elevated font-body text-sm animate-[fadeIn_0.2s_ease-out]">
+        <div className="fixed top-4 right-4 z-50 bg-accent text-white px-4 py-3 rounded shadow-elevated font-body text-sm animate-[fadeIn_0.2s_ease-out]">
           Optimization run queued. Estimated completion: 2.3s
         </div>
       )}
       {exportToast && (
-        <div className="fixed top-4 right-4 z-50 bg-[#111827] text-white px-4 py-3 rounded shadow-elevated font-body text-sm animate-[fadeIn_0.2s_ease-out]">
+        <div className="fixed top-4 right-4 z-50 bg-surface-card border border-surface-border text-text-primary px-4 py-3 rounded shadow-elevated font-body text-sm animate-[fadeIn_0.2s_ease-out]">
           Export started. File will download shortly.
         </div>
       )}

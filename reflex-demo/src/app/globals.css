@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-@theme inline {
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
   /* Surface colors */
   --color-surface-base: #F5F5F5;
   --color-surface-card: #FFFFFF;
@@ -38,6 +40,35 @@
   --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+/* Dark mode token overrides — applied when <html class="dark"> */
+.dark {
+  --color-surface-base: #0B0F14;
+  --color-surface-card: #151B23;
+  --color-surface-border: #2A323D;
+  --color-surface-border-subtle: #1F2632;
+  --color-surface-hover: #1C232E;
+
+  --color-status-normal: #9CA3AF;
+  --color-status-healthy: #14B8A6;
+  --color-status-warning: #F59E0B;
+  --color-status-critical: #EF4444;
+  --color-status-info: #3B82F6;
+
+  --color-accent: #14B8A6;
+  --color-accent-hover: #2DD4BF;
+  --color-accent-light: #134E4A;
+  --color-accent-muted: #0F2A28;
+
+  --color-text-primary: #F3F4F6;
+  --color-text-secondary: #B8C0CC;
+  --color-text-muted: #7A8494;
+  --color-text-inverse: #0B0F14;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.35);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.40);
+}
+
 @layer base {
   .tabular-nums {
     font-variant-numeric: tabular-nums;
@@ -46,6 +77,17 @@
   [data-metric] {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
+  }
+
+  /* Smooth color transitions on theme toggle — only after first paint */
+  html.theme-ready body,
+  html.theme-ready body * {
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      fill 180ms ease,
+      stroke 180ms ease;
   }
 }
 

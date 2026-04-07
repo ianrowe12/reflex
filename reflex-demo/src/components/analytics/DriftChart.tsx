@@ -2,6 +2,8 @@
 
 import ReactECharts from "echarts-for-react";
 import { driftData, driftDataByEquipment } from "@/data/mock-data";
+import { useChartTheme } from "@/lib/chart-theme";
+import { useIsDark } from "@/lib/theme";
 
 interface DriftChartProps {
   /** If set, use the per-equipment series from driftDataByEquipment instead of the default driftData. */
@@ -11,6 +13,9 @@ interface DriftChartProps {
 }
 
 export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) {
+  const t = useChartTheme();
+  const isDark = useIsDark();
+
   const series = equipmentArea
     ? (driftDataByEquipment[equipmentArea] ?? driftData)
     : driftData;
@@ -30,6 +35,10 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
 
   const valueSuffix = equipmentArea ? "" : "%";
 
+  const driftZoneFill = isDark
+    ? "rgba(245, 158, 11, 0.12)"
+    : "rgba(217, 119, 6, 0.08)";
+
   const option: Record<string, unknown> = {
     animation: true,
     animationDuration: 600,
@@ -47,9 +56,9 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
       axisTick: { show: false },
       splitLine: { show: false },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
         interval: Math.max(Math.floor(series.length / 4) - 1, 0),
       },
     },
@@ -61,22 +70,22 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
       axisTick: { show: false },
       splitLine: {
         show: true,
-        lineStyle: { color: "#F3F4F6", type: "dashed" as const },
+        lineStyle: { color: t.splitLine, type: "dashed" as const },
       },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
         formatter: (v: number) => `${v.toFixed(1)}${valueSuffix}`,
       },
     },
     tooltip: {
       trigger: "axis",
-      backgroundColor: "#111827",
-      borderColor: "#111827",
+      backgroundColor: t.tooltipBg,
+      borderColor: t.tooltipBorder,
       textStyle: {
-        color: "#F9FAFB",
-        fontFamily: "IBM Plex Mono, monospace",
+        color: t.tooltipText,
+        fontFamily: t.fontMono,
         fontSize: 12,
       },
       formatter: (params: Array<{ seriesName: string; value: number; axisValue: string }>) => {
@@ -96,8 +105,8 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
         data: series.map((d) => d.predicted),
         smooth: true,
         symbol: "none",
-        lineStyle: { color: "#0D9488", width: 2 },
-        itemStyle: { color: "#0D9488" },
+        lineStyle: { color: t.accent, width: 2 },
+        itemStyle: { color: t.accent },
         markArea:
           driftStartIndex >= 0
             ? {
@@ -107,7 +116,7 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
                     {
                       xAxis: series[driftStartIndex].date,
                       itemStyle: {
-                        color: "rgba(217, 119, 6, 0.08)",
+                        color: driftZoneFill,
                       },
                     },
                     { xAxis: series[series.length - 1].date },
@@ -122,8 +131,8 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
         data: series.map((d) => Number(d.actual.toFixed(3))),
         smooth: true,
         symbol: "none",
-        lineStyle: { color: "#9CA3AF", width: 2, type: "dashed" as const },
-        itemStyle: { color: "#9CA3AF" },
+        lineStyle: { color: t.textMuted, width: 2, type: "dashed" as const },
+        itemStyle: { color: t.textMuted },
       },
     ],
   };
@@ -132,16 +141,16 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
     <div className="flex flex-col h-full relative">
       {!hideHeader && (
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-headline font-semibold text-[#111827]">
+          <h3 className="text-sm font-headline font-semibold text-text-primary">
             Model Drift — Yield Prediction
           </h3>
-          <div className="flex items-center gap-4 text-xs font-mono text-[#9CA3AF]">
+          <div className="flex items-center gap-4 text-xs font-mono text-text-muted">
             <span className="flex items-center gap-1.5">
-              <span className="inline-block w-4 h-0.5 bg-[#0D9488]" />
+              <span className="inline-block w-4 h-0.5 bg-accent" />
               Predicted
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="inline-block w-4 h-0.5 bg-[#9CA3AF] border-t border-dashed border-[#9CA3AF]" />
+              <span className="inline-block w-4 h-0.5 bg-text-muted border-t border-dashed border-text-muted" />
               Actual
             </span>
           </div>
@@ -149,6 +158,7 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
       )}
       <div className="flex-1 min-h-0 relative">
         <ReactECharts
+          key={isDark ? "d" : "l"}
           option={option}
           style={{ height: "100%", width: "100%" }}
           opts={{ renderer: "svg" }}
@@ -156,7 +166,7 @@ export function DriftChart({ equipmentArea, hideHeader }: DriftChartProps = {}) 
         />
         {driftStartIndex >= 0 && (
           <div
-            className="absolute top-2 right-8 px-2 py-1 rounded text-[10px] font-headline font-bold uppercase tracking-wider text-[#D97706] bg-[#FFFBEB] border border-[#FDE68A]"
+            className="absolute top-2 right-8 px-2 py-1 rounded text-[10px] font-headline font-bold uppercase tracking-wider text-status-warning bg-amber-50 border border-amber-200 dark:bg-amber-500/15 dark:border-amber-500/30"
           >
             Drift Detected
           </div>

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import ReactECharts from "echarts-for-react";
 import { marginWaterfallByWindow, type WaterfallWindow } from "@/data/mock-data";
+import { useChartTheme } from "@/lib/chart-theme";
+import { useIsDark } from "@/lib/theme";
 
 const timeRanges: WaterfallWindow[] = ["1d", "7d", "30d"];
 const modes = ["rate", "cumulative"] as const;
@@ -13,6 +15,8 @@ export function WaterfallChart() {
   // 7d is the natural middle of the new short-horizon range.
   const [activeRange, setActiveRange] = useState<WaterfallWindow>("7d");
   const [mode, setMode] = useState<Mode>("rate");
+  const t = useChartTheme();
+  const isDark = useIsDark();
 
   const windowDays = activeRange === "1d" ? 1 : activeRange === "7d" ? 7 : 30;
   const w = marginWaterfallByWindow[activeRange];
@@ -27,7 +31,7 @@ export function WaterfallChart() {
 
   const summaryCategories = ["Margin Captured", "Additional Opportunity"];
   const summaryValues = [scale(w.capturedRatePerDay), scale(w.opportunityRatePerDay)];
-  const summaryColors = ["#0D9488", "#D1D5DB"];
+  const summaryColors = [t.accent, t.neutralBar];
 
   const unitCategories = w.units.map((u) => u.name);
   const unitValues = w.units.map((u) => scale(u.ratePerDay));
@@ -37,7 +41,7 @@ export function WaterfallChart() {
   const allColors = [
     ...summaryColors,
     "transparent",
-    ...unitCategories.map(() => "#0D9488"),
+    ...unitCategories.map(() => t.accent),
   ];
 
   const option: Record<string, unknown> = {
@@ -57,12 +61,12 @@ export function WaterfallChart() {
       axisTick: { show: false },
       splitLine: {
         show: true,
-        lineStyle: { color: "#F3F4F6", type: "dashed" as const },
+        lineStyle: { color: t.splitLine, type: "dashed" as const },
       },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
         formatter: (v: number) => fmtVal(v),
       },
     },
@@ -73,19 +77,19 @@ export function WaterfallChart() {
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
       },
     },
     tooltip: {
       trigger: "axis",
       axisPointer: { type: "shadow" },
-      backgroundColor: "#111827",
-      borderColor: "#111827",
+      backgroundColor: t.tooltipBg,
+      borderColor: t.tooltipBorder,
       textStyle: {
-        color: "#F9FAFB",
-        fontFamily: "IBM Plex Mono, monospace",
+        color: t.tooltipText,
+        fontFamily: t.fontMono,
         fontSize: 12,
       },
       formatter: (params: Array<{ name: string; value: number }>) => {
@@ -107,9 +111,9 @@ export function WaterfallChart() {
         label: {
           show: true,
           position: "right" as const,
-          fontFamily: "IBM Plex Mono, monospace",
+          fontFamily: t.fontMono,
           fontSize: 11,
-          color: "#4B5563",
+          color: t.textMuted,
           formatter: (p: { value: number; dataIndex: number }) => {
             if (p.dataIndex === 2) return "";
             return fmtVal(p.value);
@@ -122,9 +126,9 @@ export function WaterfallChart() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-3 gap-3">
-        <h3 className="text-sm font-headline font-semibold text-[#111827]">
+        <h3 className="text-sm font-headline font-semibold text-text-primary">
           Margin Waterfall{" "}
-          <span className="text-xs font-mono text-[#9CA3AF]">
+          <span className="text-xs font-mono text-text-muted">
             · {mode === "rate" ? "$/day" : "Cumulative"}
           </span>
         </h3>
@@ -137,15 +141,15 @@ export function WaterfallChart() {
                 onClick={() => setMode(m)}
                 className={`px-2.5 py-1 rounded-full text-xs font-mono transition-colors ${
                   mode === m
-                    ? "bg-[#0D9488] text-white"
-                    : "bg-[#F3F4F6] text-[#9CA3AF] hover:text-[#4B5563]"
+                    ? "bg-accent text-white"
+                    : "bg-surface-hover text-text-muted hover:text-text-secondary"
                 }`}
               >
                 {m === "rate" ? "$/day" : "Cumulative"}
               </button>
             ))}
           </div>
-          <div className="w-px h-4 bg-[#E5E7EB]" />
+          <div className="w-px h-4 bg-surface-border" />
           <div className="flex gap-1">
             {timeRanges.map((range) => (
               <button
@@ -154,8 +158,8 @@ export function WaterfallChart() {
                 onClick={() => setActiveRange(range)}
                 className={`px-2.5 py-1 rounded-full text-xs font-mono transition-colors ${
                   activeRange === range
-                    ? "bg-[#0D9488] text-white"
-                    : "bg-[#F3F4F6] text-[#9CA3AF] hover:text-[#4B5563]"
+                    ? "bg-accent text-white"
+                    : "bg-surface-hover text-text-muted hover:text-text-secondary"
                 }`}
               >
                 {range}
@@ -166,6 +170,7 @@ export function WaterfallChart() {
       </div>
       <div className="flex-1 min-h-0">
         <ReactECharts
+          key={isDark ? "d" : "l"}
           option={option}
           style={{ height: "100%", width: "100%" }}
           opts={{ renderer: "svg" }}

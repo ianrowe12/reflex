@@ -85,7 +85,7 @@ export default function SupportPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="font-headline text-xl font-bold text-[#111827]">Help &amp; Support</h1>
+          <h1 className="font-headline text-xl font-bold text-text-primary">Help &amp; Support</h1>
         </div>
       </div>
 
@@ -93,26 +93,26 @@ export default function SupportPage() {
       <div className="grid grid-cols-[3fr_2fr] gap-5">
         {/* Left: FAQ */}
         <div className="flex flex-col gap-0">
-          <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+          <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
             Frequently Asked Questions
           </h2>
-          <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] divide-y divide-[#E5E7EB]">
+          <div className="bg-surface-card rounded border border-surface-border shadow-card divide-y divide-surface-border">
             {FAQ_ITEMS.map((item, i) => (
               <div key={i}>
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-surface-hover transition-colors cursor-pointer"
                 >
-                  <span className="text-sm font-headline font-medium text-[#111827] pr-4">{item.question}</span>
+                  <span className="text-sm font-headline font-medium text-text-primary pr-4">{item.question}</span>
                   <ChevronDown
-                    className={`h-4 w-4 text-[#9CA3AF] shrink-0 transition-transform duration-200 ${
+                    className={`h-4 w-4 text-text-muted shrink-0 transition-transform duration-200 ${
                       openFaq === i ? "rotate-180" : ""
                     }`}
                   />
                 </button>
                 {openFaq === i && (
                   <div className="px-4 pb-3">
-                    <p className="text-sm font-body text-[#4B5563] leading-relaxed">{item.answer}</p>
+                    <p className="text-sm font-body text-text-secondary leading-relaxed">{item.answer}</p>
                   </div>
                 )}
               </div>
@@ -124,20 +124,20 @@ export default function SupportPage() {
         <div className="flex flex-col gap-5">
           {/* Documentation */}
           <div>
-            <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+            <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
               Documentation
             </h2>
-            <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] divide-y divide-[#E5E7EB]">
+            <div className="bg-surface-card rounded border border-surface-border shadow-card divide-y divide-surface-border">
               {DOC_LINKS.map((doc) => (
                 <a
                   key={doc.label}
                   href="#"
-                  className="flex items-center gap-3 px-4 py-3 hover:bg-[#F9FAFB] transition-colors group"
+                  className="flex items-center gap-3 px-4 py-3 hover:bg-surface-hover transition-colors group"
                 >
-                  <doc.icon className="h-4 w-4 text-[#9CA3AF] group-hover:text-[#0D9488] shrink-0 transition-colors" />
+                  <doc.icon className="h-4 w-4 text-text-muted group-hover:text-accent shrink-0 transition-colors" />
                   <div className="min-w-0">
-                    <p className="text-sm font-headline font-medium text-[#0D9488] group-hover:underline">{doc.label}</p>
-                    <p className="text-xs font-body text-[#9CA3AF]">{doc.description}</p>
+                    <p className="text-sm font-headline font-medium text-accent group-hover:underline">{doc.label}</p>
+                    <p className="text-xs font-body text-text-muted">{doc.description}</p>
                   </div>
                 </a>
               ))}
@@ -146,14 +146,14 @@ export default function SupportPage() {
 
           {/* Submit a Ticket */}
           <div>
-            <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+            <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
               Submit a Ticket
             </h2>
-            <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+            <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
               {ticketSubmitted ? (
                 <div className="flex flex-col items-center gap-2 py-4">
-                  <div className="h-10 w-10 rounded-full bg-[#F0FDFA] flex items-center justify-center">
-                    <svg className="h-5 w-5 text-[#0D9488]" viewBox="0 0 20 20" fill="currentColor">
+                  <div className="h-10 w-10 rounded-full bg-accent-muted flex items-center justify-center">
+                    <svg className="h-5 w-5 text-accent" viewBox="0 0 20 20" fill="currentColor">
                       <path
                         fillRule="evenodd"
                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -161,11 +161,11 @@ export default function SupportPage() {
                       />
                     </svg>
                   </div>
-                  <p className="text-sm font-headline font-medium text-[#111827]">Ticket submitted successfully</p>
-                  <p className="text-xs font-mono text-[#0D9488]">Reference: SUP-2847</p>
+                  <p className="text-sm font-headline font-medium text-text-primary">Ticket submitted successfully</p>
+                  <p className="text-xs font-mono text-accent">Reference: SUP-2847</p>
                   <button
                     onClick={() => setTicketSubmitted(false)}
-                    className="mt-2 text-xs font-headline font-medium text-[#4B5563] hover:text-[#111827] transition-colors cursor-pointer"
+                    className="mt-2 text-xs font-headline font-medium text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
                   >
                     Submit another ticket
                   </button>
@@ -173,7 +173,7 @@ export default function SupportPage() {
               ) : (
                 <div className="flex flex-col gap-3">
                   <div>
-                    <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">
+                    <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">
                       Subject
                     </label>
                     <input
@@ -181,11 +181,11 @@ export default function SupportPage() {
                       value={ticketSubject}
                       onChange={(e) => setTicketSubject(e.target.value)}
                       placeholder="Brief description of the issue"
-                      className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                      className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">
+                    <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">
                       Description
                     </label>
                     <textarea
@@ -193,17 +193,17 @@ export default function SupportPage() {
                       value={ticketDescription}
                       onChange={(e) => setTicketDescription(e.target.value)}
                       placeholder="Describe the issue in detail..."
-                      className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488] resize-none"
+                      className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent resize-none"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">
+                    <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">
                       Priority
                     </label>
                     <select
                       value={ticketPriority}
                       onChange={(e) => setTicketPriority(e.target.value)}
-                      className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] bg-white focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                      className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary bg-surface-card focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                     >
                       <option>Low</option>
                       <option>Medium</option>
@@ -213,7 +213,7 @@ export default function SupportPage() {
                   </div>
                   <button
                     onClick={handleSubmitTicket}
-                    className="self-start px-4 py-2 rounded bg-[#0D9488] text-white text-sm font-headline font-medium hover:bg-[#0F766E] transition-colors cursor-pointer"
+                    className="self-start px-4 py-2 rounded bg-accent text-white text-sm font-headline font-medium hover:bg-accent-hover transition-colors cursor-pointer"
                   >
                     Submit Ticket
                   </button>
@@ -226,29 +226,29 @@ export default function SupportPage() {
 
       {/* Bottom: System Status */}
       <div>
-        <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+        <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
           System Status
         </h2>
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
           <div className="grid grid-cols-5 gap-4">
             {SYSTEM_STATUS.map((svc) => (
               <div key={svc.name} className="flex flex-col items-center gap-2 text-center">
                 <div className="flex items-center gap-1.5">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
-                      svc.status === "operational" ? "bg-[#0D9488]" : "bg-[#D97706] animate-pulse"
+                      svc.status === "operational" ? "bg-accent" : "bg-status-warning animate-pulse"
                     }`}
                   />
-                  <span className="text-sm font-headline font-medium text-[#111827]">{svc.name}</span>
+                  <span className="text-sm font-headline font-medium text-text-primary">{svc.name}</span>
                 </div>
                 <span
                   className={`text-xs font-body ${
-                    svc.status === "operational" ? "text-[#0D9488]" : "text-[#D97706]"
+                    svc.status === "operational" ? "text-accent" : "text-status-warning"
                   }`}
                 >
                   {svc.status === "operational" ? "Operational" : "Degraded"}
                 </span>
-                <span className="text-xs font-mono text-[#9CA3AF]">{svc.detail}</span>
+                <span className="text-xs font-mono text-text-muted">{svc.detail}</span>
               </div>
             ))}
           </div>

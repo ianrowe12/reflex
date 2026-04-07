@@ -3,6 +3,8 @@
 import { KPICard } from "@/components/ui/KPICard";
 import type { KPICardData } from "@/types";
 import ReactECharts from "echarts-for-react";
+import { useChartTheme } from "@/lib/chart-theme";
+import { useIsDark } from "@/lib/theme";
 
 /* ── Mock Data ────────────────────────────────────────────────── */
 
@@ -49,16 +51,16 @@ const risks: Risk[] = [
 ];
 
 const categoryColor: Record<RiskCategory, { bg: string; text: string; border: string }> = {
-  Operational: { bg: "bg-blue-50", text: "text-blue-700", border: "border-l-blue-500" },
-  Financial: { bg: "bg-amber-50", text: "text-amber-700", border: "border-l-amber-500" },
-  Safety: { bg: "bg-red-50", text: "text-red-700", border: "border-l-red-500" },
-  Environmental: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-l-emerald-500" },
+  Operational: { bg: "bg-blue-50 dark:bg-blue-500/15", text: "text-blue-700 dark:text-blue-300", border: "border-l-blue-500" },
+  Financial: { bg: "bg-amber-50 dark:bg-amber-500/15", text: "text-amber-700 dark:text-amber-300", border: "border-l-amber-500" },
+  Safety: { bg: "bg-red-50 dark:bg-red-500/15", text: "text-red-700 dark:text-red-300", border: "border-l-red-500" },
+  Environmental: { bg: "bg-emerald-50 dark:bg-emerald-500/15", text: "text-emerald-700 dark:text-emerald-300", border: "border-l-emerald-500" },
 };
 
 const statusPill: Record<string, string> = {
-  Open: "bg-red-100 text-red-700",
-  Mitigating: "bg-amber-100 text-amber-700",
-  Monitoring: "bg-blue-100 text-blue-700",
+  Open: "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300",
+  Mitigating: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
+  Monitoring: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300",
 };
 
 const trendMonths = ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"];
@@ -67,6 +69,9 @@ const trendScores = [52, 49, 51, 48, 46, 50, 47, 44, 43, 45, 42, 40];
 /* ── Page Component ───────────────────────────────────────────── */
 
 export default function RiskAssessmentPage() {
+  const t = useChartTheme();
+  const isDark = useIsDark();
+
   /* Heatmap chart */
   const heatmapOption: Record<string, unknown> = {
     animation: true,
@@ -80,11 +85,11 @@ export default function RiskAssessmentPage() {
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 10,
-        color: "#9CA3AF",
+        color: t.textMuted,
       },
-      splitArea: { show: true, areaStyle: { color: ["#FAFAFA", "#F5F5F5"] } },
+      splitArea: { show: true, areaStyle: { color: [t.splitAreaA, t.splitAreaB] } },
     },
     yAxis: {
       type: "category",
@@ -92,11 +97,11 @@ export default function RiskAssessmentPage() {
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 10,
-        color: "#9CA3AF",
+        color: t.textMuted,
       },
-      splitArea: { show: true, areaStyle: { color: ["#FAFAFA", "#F5F5F5"] } },
+      splitArea: { show: true, areaStyle: { color: [t.splitAreaA, t.splitAreaB] } },
     },
     visualMap: {
       min: 0,
@@ -107,16 +112,16 @@ export default function RiskAssessmentPage() {
       bottom: 0,
       show: false,
       inRange: {
-        color: ["#D1FAE5", "#FEF3C7", "#FEE2E2", "#DC2626"],
+        color: t.heatmapScale,
       },
     },
     tooltip: {
       trigger: "item",
-      backgroundColor: "#111827",
-      borderColor: "#111827",
+      backgroundColor: t.tooltipBg,
+      borderColor: t.tooltipBorder,
       textStyle: {
-        color: "#F9FAFB",
-        fontFamily: "IBM Plex Mono, monospace",
+        color: t.tooltipText,
+        fontFamily: t.fontMono,
         fontSize: 12,
       },
       formatter: (params: { value: [number, number, number] }) => {
@@ -130,16 +135,20 @@ export default function RiskAssessmentPage() {
         data: heatmapPoints,
         label: {
           show: true,
-          fontFamily: "IBM Plex Mono, monospace",
+          fontFamily: t.fontMono,
           fontSize: 11,
-          color: "#111827",
+          color: isDark ? "#F3F4F6" : "#111827",
           formatter: (params: { value: [number, number, number] }) =>
             params.value[2].toFixed(1),
         },
         emphasis: {
-          itemStyle: { shadowBlur: 6, shadowColor: "rgba(0,0,0,0.2)" },
+          itemStyle: { shadowBlur: 6, shadowColor: "rgba(0,0,0,0.4)" },
         },
-        itemStyle: { borderColor: "#FFFFFF", borderWidth: 3, borderRadius: 4 },
+        itemStyle: {
+          borderColor: isDark ? "#151B23" : "#FFFFFF",
+          borderWidth: 3,
+          borderRadius: 4,
+        },
       },
     ],
   };
@@ -156,29 +165,29 @@ export default function RiskAssessmentPage() {
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
       },
     },
     yAxis: {
       type: "value",
       axisLine: { show: false },
       axisTick: { show: false },
-      splitLine: { show: true, lineStyle: { color: "#F3F4F6", type: "dashed" as const } },
+      splitLine: { show: true, lineStyle: { color: t.splitLine, type: "dashed" as const } },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
       },
     },
     tooltip: {
       trigger: "axis",
-      backgroundColor: "#111827",
-      borderColor: "#111827",
+      backgroundColor: t.tooltipBg,
+      borderColor: t.tooltipBorder,
       textStyle: {
-        color: "#F9FAFB",
-        fontFamily: "IBM Plex Mono, monospace",
+        color: t.tooltipText,
+        fontFamily: t.fontMono,
         fontSize: 12,
       },
       formatter: (params: Array<{ name: string; value: number }>) =>
@@ -191,9 +200,9 @@ export default function RiskAssessmentPage() {
         smooth: true,
         symbol: "circle",
         symbolSize: 6,
-        lineStyle: { color: "#0D9488", width: 2 },
-        itemStyle: { color: "#0D9488" },
-        areaStyle: { color: "rgba(13, 148, 136, 0.06)" },
+        lineStyle: { color: t.accent, width: 2 },
+        itemStyle: { color: t.accent },
+        areaStyle: { color: t.accentSoft },
       },
     ],
   };
@@ -203,16 +212,16 @@ export default function RiskAssessmentPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="font-headline text-xl font-bold text-[#111827]">Risk Assessment</h1>
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A]">
+          <h1 className="font-headline text-xl font-bold text-text-primary">Risk Assessment</h1>
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-500/15 text-status-warning border border-amber-200 dark:border-amber-500/30">
             4 Active Risks
           </span>
         </div>
-        <span className="text-xs font-mono text-[#9CA3AF]">Synced 12s ago</span>
+        <span className="text-xs font-mono text-text-muted">Synced 12s ago</span>
       </div>
 
       {/* Scope note */}
-      <p className="text-xs font-body text-[#6B7280] -mt-2">
+      <p className="text-xs font-body text-text-secondary -mt-2">
         This view focuses on risks that affect LP model planning. Safety, HR, and compliance risks are tracked separately by their respective departments.
       </p>
 
@@ -226,11 +235,12 @@ export default function RiskAssessmentPage() {
       {/* Two-column: Heatmap + Risk Table */}
       <div className="grid grid-cols-[55fr_45fr] gap-4">
         {/* Left: Heatmap */}
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-          <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+          <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
             Risk Heatmap
           </h2>
           <ReactECharts
+            key={isDark ? "d" : "l"}
             option={heatmapOption}
             style={{ height: 320, width: "100%" }}
             opts={{ renderer: "svg" }}
@@ -238,36 +248,36 @@ export default function RiskAssessmentPage() {
         </div>
 
         {/* Right: Risk Table */}
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-          <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+          <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
             Active Risks
           </h2>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#E5E7EB]">
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">ID</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Description</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Category</th>
-                <th className="text-right py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Score</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Owner</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Status</th>
+              <tr className="border-b border-surface-border">
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">ID</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Description</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Category</th>
+                <th className="text-right py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Score</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Owner</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Status</th>
               </tr>
             </thead>
             <tbody>
               {risks.map((r, i) => (
                 <tr
                   key={r.id}
-                  className={`border-b border-[#F3F4F6] last:border-0 border-l-4 ${categoryColor[r.category].border} ${i % 2 === 1 ? "bg-[#F9FAFB]" : ""}`}
+                  className={`border-b border-surface-border-subtle last:border-0 border-l-4 ${categoryColor[r.category].border} ${i % 2 === 1 ? "bg-surface-hover" : ""}`}
                 >
-                  <td className="py-2 px-1 font-mono text-xs text-[#111827]">{r.id}</td>
-                  <td className="py-2 px-1 font-body text-xs text-[#4B5563] max-w-[180px] truncate">{r.description}</td>
+                  <td className="py-2 px-1 font-mono text-xs text-text-primary">{r.id}</td>
+                  <td className="py-2 px-1 font-body text-xs text-text-secondary max-w-[180px] truncate">{r.description}</td>
                   <td className="py-2 px-1">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-semibold uppercase tracking-wide ${categoryColor[r.category].bg} ${categoryColor[r.category].text}`}>
                       {r.category}
                     </span>
                   </td>
-                  <td className="py-2 px-1 text-right font-mono text-xs text-[#111827]">{r.score.toFixed(1)}</td>
-                  <td className="py-2 px-1 font-body text-xs text-[#4B5563]">{r.owner}</td>
+                  <td className="py-2 px-1 text-right font-mono text-xs text-text-primary">{r.score.toFixed(1)}</td>
+                  <td className="py-2 px-1 font-body text-xs text-text-secondary">{r.owner}</td>
                   <td className="py-2 px-1">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-semibold uppercase tracking-wide ${statusPill[r.status]}`}>
                       {r.status}
@@ -281,11 +291,12 @@ export default function RiskAssessmentPage() {
       </div>
 
       {/* Bottom: Risk Trend */}
-      <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-        <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+      <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+        <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
           Risk Trend — Total Score (12 Months)
         </h2>
         <ReactECharts
+          key={isDark ? "d" : "l"}
           option={trendOption}
           style={{ height: 200, width: "100%" }}
           opts={{ renderer: "svg" }}

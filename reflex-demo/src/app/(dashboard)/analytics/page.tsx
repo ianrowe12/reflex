@@ -14,14 +14,14 @@ export default function AnalyticsPage() {
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="font-headline text-xl font-bold text-[#111827]">
+          <h1 className="font-headline text-xl font-bold text-text-primary">
             Financial &amp; Model Health
           </h1>
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-[#F0FDFA] text-[#0D9488] border border-[#CCFBF1]">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-accent-muted text-accent border border-accent-light">
             System Normal
           </span>
         </div>
-        <span className="text-xs font-mono text-[#9CA3AF]">
+        <span className="text-xs font-mono text-text-muted">
           Synced 12s ago
         </span>
       </div>
@@ -35,20 +35,20 @@ export default function AnalyticsPage() {
 
       {/* 2x2 chart grid: 55/45 split */}
       <div className="grid grid-cols-[55fr_45fr] grid-rows-[360px_360px] gap-4">
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
           <WaterfallChart />
         </div>
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4 flex flex-col">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4 flex flex-col">
           <div className="flex items-center justify-between mb-2">
             <Link
               href="/model-drift"
-              className="text-sm font-headline font-semibold text-[#111827] hover:text-[#0D9488] transition-colors"
+              className="text-sm font-headline font-semibold text-text-primary hover:text-accent transition-colors"
             >
               Model Drift — by Equipment
             </Link>
             <Link
               href="/model-drift"
-              className="text-xs font-mono text-[#0D9488] hover:underline"
+              className="text-xs font-mono text-accent hover:underline"
             >
               View detail →
             </Link>
@@ -60,19 +60,19 @@ export default function AnalyticsPage() {
             {modelDriftByEquipment.map((row) => {
               const deltaColor =
                 row.status === "drift"
-                  ? "text-[#DC2626]"
+                  ? "text-status-critical"
                   : row.status === "watch"
-                    ? "text-[#D97706]"
-                    : "text-[#0D9488]";
+                    ? "text-status-warning"
+                    : "text-accent";
               return (
                 <div
                   key={row.area}
-                  className="flex flex-col gap-0.5 rounded border border-[#F3F4F6] bg-[#F9FAFB] px-2 py-1.5"
+                  className="flex flex-col gap-0.5 rounded border border-surface-border-subtle bg-surface-hover px-2 py-1.5"
                 >
-                  <span className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] truncate">
+                  <span className="text-[10px] font-headline uppercase tracking-wider text-text-muted truncate">
                     {row.area}
                   </span>
-                  <span className="font-mono text-[11px] text-[#4B5563]">
+                  <span className="font-mono text-[11px] text-text-secondary">
                     {row.predicted}→{row.actual}
                   </span>
                   <span className={`font-mono text-[11px] ${deltaColor}`}>
@@ -85,10 +85,10 @@ export default function AnalyticsPage() {
             })}
           </div>
         </div>
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
           <SensorHealthMatrix />
         </div>
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
           <ConstraintBarChart />
         </div>
       </div>

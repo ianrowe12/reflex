@@ -30,15 +30,15 @@ export default function UnitPage({
   if (!dashboard) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-3">
-        <h1 className="font-headline text-xl font-bold text-[#111827]">
+        <h1 className="font-headline text-xl font-bold text-text-primary">
           Unit not found
         </h1>
-        <p className="text-sm font-body text-[#9CA3AF]">
+        <p className="text-sm font-body text-text-muted">
           No dashboard exists for &ldquo;{unit}&rdquo;.
         </p>
         <Link
           href="/refinery-flow"
-          className="text-sm font-headline text-[#0D9488] hover:underline"
+          className="text-sm font-headline text-accent hover:underline"
         >
           ← Back to Refinery Flow
         </Link>
@@ -49,26 +49,26 @@ export default function UnitPage({
   return (
     <div className="flex flex-col gap-5">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-xs font-headline text-[#9CA3AF]">
-        <Link href="/refinery-flow" className="hover:text-[#0D9488]">
+      <nav className="flex items-center gap-1.5 text-xs font-headline text-text-muted">
+        <Link href="/refinery-flow" className="hover:text-accent">
           Refinery Flow
         </Link>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-[#111827]">{dashboard.name}</span>
+        <span className="text-text-primary">{dashboard.name}</span>
       </nav>
 
       {/* Header: title + hero opportunity + Submit Constraint button */}
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-3">
-            <h1 className="font-headline text-xl font-bold text-[#111827]">
+            <h1 className="font-headline text-xl font-bold text-text-primary">
               {dashboard.fullName}
             </h1>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-[#F0FDFA] text-[#0D9488] border border-[#CCFBF1]">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-accent-muted text-accent border border-accent-light">
               {dashboard.name}
             </span>
           </div>
-          <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] mt-1">
+          <span className="text-xs font-headline uppercase tracking-wider text-text-muted mt-1">
             Optimization Opportunity
           </span>
           <div className="flex items-baseline gap-3">
@@ -76,10 +76,10 @@ export default function UnitPage({
               value={dashboard.heroOpportunity}
               prefix="$"
               precision={0}
-              className="text-4xl font-bold text-[#111827]"
+              className="text-4xl font-bold text-text-primary"
             />
-            <span className="text-sm font-mono text-[#9CA3AF]">/ day</span>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold font-mono bg-[#F0FDFA] text-[#0D9488]">
+            <span className="text-sm font-mono text-text-muted">/ day</span>
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold font-mono bg-accent-muted text-accent">
               +{dashboard.heroTrend}%
             </span>
           </div>
@@ -87,7 +87,7 @@ export default function UnitPage({
         <button
           type="button"
           onClick={() => setWizardOpen(true)}
-          className="px-4 py-2 rounded text-sm font-headline font-semibold bg-[#0D9488] text-white hover:bg-[#0F766E] transition-colors cursor-pointer"
+          className="px-4 py-2 rounded text-sm font-headline font-semibold bg-accent text-white hover:bg-accent-hover transition-colors cursor-pointer"
         >
           Submit Constraint
         </button>
@@ -108,15 +108,15 @@ export default function UnitPage({
         {/* Recommendations */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">
+            <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">
               Recommendations
             </h2>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#F0FDFA] text-[#0D9488]">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-accent-muted text-accent">
               {dashboard.recommendations.length} active
             </span>
           </div>
           {dashboard.recommendations.length === 0 ? (
-            <p className="text-xs font-body text-[#9CA3AF]">
+            <p className="text-xs font-body text-text-muted">
               No recommendations for this unit right now.
             </p>
           ) : (
@@ -133,16 +133,16 @@ export default function UnitPage({
         {/* Active Constraints */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">
+            <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">
               Active Constraints
             </h2>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#FEF3C7] text-[#92400E]">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-500/15 text-amber-800 dark:text-amber-400">
               {dashboard.constraints.length}
             </span>
           </div>
-          <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+          <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
             {dashboard.constraints.length === 0 ? (
-              <p className="text-xs font-body text-[#9CA3AF] py-4 text-center">
+              <p className="text-xs font-body text-text-muted py-4 text-center">
                 No active constraints on this unit.
               </p>
             ) : (
@@ -151,29 +151,29 @@ export default function UnitPage({
                   <div
                     key={c.id}
                     className={clsx(
-                      "border border-[#E5E7EB] rounded border-l-4 p-3",
+                      "border border-surface-border rounded border-l-4 p-3",
                       constraintBorderColor[c.status],
                     )}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-headline font-semibold text-[#111827]">
+                        <span className="text-sm font-headline font-semibold text-text-primary">
                           {c.unit}
                         </span>
-                        <span className="text-xs font-body text-[#4B5563]">
+                        <span className="text-xs font-body text-text-secondary">
                           {c.equipment}
                         </span>
                       </div>
                       <ConstraintStatusBadge status={c.status} />
                     </div>
                     <div className="flex items-center gap-3 text-xs">
-                      <span className="font-mono text-[#111827]">
+                      <span className="font-mono text-text-primary">
                         {c.severity}
                       </span>
-                      <span className="text-[#9CA3AF]">{c.age}</span>
+                      <span className="text-text-muted">{c.age}</span>
                     </div>
                     {c.description && (
-                      <p className="text-xs font-body text-[#4B5563] mt-1.5">
+                      <p className="text-xs font-body text-text-secondary mt-1.5">
                         {c.description}
                       </p>
                     )}

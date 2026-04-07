@@ -2,8 +2,13 @@
 
 import ReactECharts from "echarts-for-react";
 import { constraintPatterns } from "@/data/mock-data";
+import { useChartTheme } from "@/lib/chart-theme";
+import { useIsDark } from "@/lib/theme";
 
 export function ConstraintBarChart() {
+  const t = useChartTheme();
+  const isDark = useIsDark();
+
   const categories = constraintPatterns.map((c) => c.name);
   const values = constraintPatterns.map((c) => c.count);
   const maxVal = Math.max(...values);
@@ -26,7 +31,7 @@ export function ConstraintBarChart() {
       axisTick: { show: false },
       splitLine: {
         show: true,
-        lineStyle: { color: "#F3F4F6", type: "dashed" as const },
+        lineStyle: { color: t.splitLine, type: "dashed" as const },
       },
       axisLabel: { show: false },
       max: maxVal + 3,
@@ -38,9 +43,9 @@ export function ConstraintBarChart() {
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontFamily: "IBM Plex Mono, monospace",
+        fontFamily: t.fontMono,
         fontSize: 11,
-        color: "#9CA3AF",
+        color: t.textMuted,
         width: 180,
         overflow: "truncate" as const,
       },
@@ -48,11 +53,11 @@ export function ConstraintBarChart() {
     tooltip: {
       trigger: "axis",
       axisPointer: { type: "shadow" },
-      backgroundColor: "#111827",
-      borderColor: "#111827",
+      backgroundColor: t.tooltipBg,
+      borderColor: t.tooltipBorder,
       textStyle: {
-        color: "#F9FAFB",
-        fontFamily: "IBM Plex Mono, monospace",
+        color: t.tooltipText,
+        fontFamily: t.fontMono,
         fontSize: 12,
       },
       formatter: (params: Array<{ name: string; value: number }>) => {
@@ -66,7 +71,7 @@ export function ConstraintBarChart() {
         data: values.map((v, i) => ({
           value: v,
           itemStyle: {
-            color: i === 0 ? "#D97706" : "#D1D5DB",
+            color: i === 0 ? t.warning : t.neutralBar,
             borderRadius: [0, 2, 2, 0],
           },
         })),
@@ -74,9 +79,9 @@ export function ConstraintBarChart() {
         label: {
           show: true,
           position: "right" as const,
-          fontFamily: "IBM Plex Mono, monospace",
+          fontFamily: t.fontMono,
           fontSize: 11,
-          color: "#4B5563",
+          color: t.textMuted,
           formatter: (p: { value: number }) => String(p.value),
         },
       },
@@ -86,27 +91,28 @@ export function ConstraintBarChart() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-headline font-semibold text-[#111827]">
+        <h3 className="text-sm font-headline font-semibold text-text-primary">
           Recurring Constraint Patterns
         </h3>
       </div>
       <div className="flex-1 min-h-0">
         <ReactECharts
+          key={isDark ? "d" : "l"}
           option={option}
           style={{ height: "100%", width: "100%" }}
           opts={{ renderer: "svg" }}
         />
       </div>
       {topPattern?.annotation && (
-        <p className="text-xs font-mono text-[#D97706] mt-2">
+        <p className="text-xs font-mono text-status-warning mt-2">
           {topPattern.annotation}
         </p>
       )}
       <div className="flex gap-2 mt-3">
-        <button className="px-3 py-1.5 rounded text-xs font-headline font-semibold uppercase tracking-wider bg-[#0D9488] text-white hover:bg-[#0F766E] transition-colors">
+        <button className="px-3 py-1.5 rounded text-xs font-headline font-semibold uppercase tracking-wider bg-accent text-white hover:bg-accent-hover transition-colors">
           Implement Change
         </button>
-        <button className="px-3 py-1.5 rounded text-xs font-headline font-semibold uppercase tracking-wider text-[#9CA3AF] border border-[#D1D5DB] hover:border-[#9CA3AF] transition-colors">
+        <button className="px-3 py-1.5 rounded text-xs font-headline font-semibold uppercase tracking-wider text-text-muted border border-surface-border hover:border-text-muted transition-colors">
           Dismiss
         </button>
       </div>

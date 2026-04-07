@@ -50,8 +50,8 @@ function Checkbox({ checked, onChange }: { checked: boolean; onChange: () => voi
       onClick={onChange}
       className={`h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer ${
         checked
-          ? "bg-[#0D9488] border-[#0D9488]"
-          : "bg-white border-[#E5E7EB] hover:border-[#9CA3AF]"
+          ? "bg-accent border-accent"
+          : "bg-surface-card border-surface-border hover:border-text-muted"
       }`}
     >
       {checked && (
@@ -69,11 +69,11 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: () => void 
     <button
       onClick={onChange}
       className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors cursor-pointer ${
-        checked ? "bg-[#0D9488]" : "bg-[#E5E7EB]"
+        checked ? "bg-accent" : "bg-surface-border"
       }`}
     >
       <span
-        className={`inline-block h-3.5 w-3.5 rounded-full bg-white transition-transform ${
+        className={`inline-block h-3.5 w-3.5 rounded-full bg-surface-card transition-transform ${
           checked ? "translate-x-[18px]" : "translate-x-[3px]"
         }`}
       />
@@ -108,12 +108,12 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="font-headline text-xl font-bold text-[#111827]">Settings</h1>
+          <h1 className="font-headline text-xl font-bold text-text-primary">Settings</h1>
         </div>
       </div>
 
       {/* Tab Bar */}
-      <div className="border-b border-[#E5E7EB]">
+      <div className="border-b border-surface-border">
         <div className="flex gap-6">
           {TABS.map((tab) => (
             <button
@@ -121,8 +121,8 @@ export default function SettingsPage() {
               onClick={() => setActiveTab(tab)}
               className={`pb-2.5 text-xs font-headline uppercase tracking-wider font-medium transition-colors cursor-pointer ${
                 activeTab === tab
-                  ? "text-[#0D9488] border-b-2 border-[#0D9488]"
-                  : "text-[#9CA3AF] hover:text-[#4B5563]"
+                  ? "text-accent border-b-2 border-accent"
+                  : "text-text-muted hover:text-text-secondary"
               }`}
             >
               {tab}
@@ -133,47 +133,47 @@ export default function SettingsPage() {
 
       {/* Tab Content */}
       {activeTab === "Profile" && (
-        <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-6">
+        <div className="bg-surface-card rounded border border-surface-border shadow-card p-6">
           <div className="flex flex-col gap-5 max-w-lg">
             {/* Avatar */}
             <div className="flex items-center gap-4">
-              <div className="h-14 w-14 rounded-full bg-[#0D9488] flex items-center justify-center text-white font-headline font-bold text-lg">
+              <div className="h-14 w-14 rounded-full bg-accent flex items-center justify-center text-white font-headline font-bold text-lg">
                 JM
               </div>
               <div>
-                <p className="text-sm font-headline font-medium text-[#111827]">J. Martinez</p>
-                <p className="text-xs font-body text-[#9CA3AF]">Shift Supervisor</p>
+                <p className="text-sm font-headline font-medium text-text-primary">J. Martinez</p>
+                <p className="text-xs font-body text-text-muted">Shift Supervisor</p>
               </div>
             </div>
 
             {/* Form Fields */}
             <div className="flex flex-col gap-4">
               <div>
-                <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">Full Name</label>
+                <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">Full Name</label>
                 <input
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                  className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">Email</label>
+                <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                  className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">Role</label>
+                <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">Role</label>
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] bg-white focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                  className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary bg-surface-card focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 >
                   <option>Shift Supervisor</option>
                   <option>Process Engineer</option>
@@ -183,21 +183,21 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">Site</label>
+                <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">Site</label>
                 <input
                   type="text"
                   value="Valero Memphis"
                   disabled
-                  className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#4B5563] bg-[#F9FAFB] cursor-not-allowed"
+                  className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-secondary bg-surface-hover cursor-not-allowed"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">Timezone</label>
+                <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">Timezone</label>
                 <select
                   value={timezone}
                   onChange={(e) => setTimezone(e.target.value)}
-                  className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] bg-white focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                  className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary bg-surface-card focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 >
                   <option>US/Central (CDT)</option>
                   <option>US/Eastern (EDT)</option>
@@ -207,11 +207,11 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-1 block">Shift Schedule</label>
+                <label className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-1 block">Shift Schedule</label>
                 <select
                   value={shiftSchedule}
                   onChange={(e) => setShiftSchedule(e.target.value)}
-                  className="w-full px-3 py-2 rounded border border-[#E5E7EB] text-sm font-body text-[#111827] bg-white focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                  className="w-full px-3 py-2 rounded border border-surface-border text-sm font-body text-text-primary bg-surface-card focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 >
                   <option>Day Shift (06:00–18:00)</option>
                   <option>Night Shift (18:00–06:00)</option>
@@ -221,10 +221,10 @@ export default function SettingsPage() {
 
             {/* Buttons */}
             <div className="flex items-center gap-3 pt-2">
-              <button className="px-4 py-2 rounded bg-[#0D9488] text-white text-sm font-headline font-medium hover:bg-[#0F766E] transition-colors cursor-pointer">
+              <button className="px-4 py-2 rounded bg-accent text-white text-sm font-headline font-medium hover:bg-accent-hover transition-colors cursor-pointer">
                 Save Changes
               </button>
-              <button className="px-4 py-2 text-sm font-headline font-medium text-[#4B5563] hover:text-[#111827] transition-colors cursor-pointer">
+              <button className="px-4 py-2 text-sm font-headline font-medium text-text-secondary hover:text-text-primary transition-colors cursor-pointer">
                 Cancel
               </button>
             </div>
@@ -237,37 +237,37 @@ export default function SettingsPage() {
           {integrations.map((intg) => (
             <div
               key={intg.name}
-              className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4 flex flex-col gap-3"
+              className="bg-surface-card rounded border border-surface-border shadow-card p-4 flex flex-col gap-3"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center">
+                  <div className="h-9 w-9 rounded bg-surface-hover border border-surface-border flex items-center justify-center">
                     {intg.connected ? (
-                      <intg.icon className="h-4.5 w-4.5 text-[#4B5563]" />
+                      <intg.icon className="h-4.5 w-4.5 text-text-secondary" />
                     ) : (
-                      <Link2Off className="h-4.5 w-4.5 text-[#9CA3AF]" />
+                      <Link2Off className="h-4.5 w-4.5 text-text-muted" />
                     )}
                   </div>
                   <div>
-                    <p className="text-sm font-headline font-medium text-[#111827]">{intg.name}</p>
+                    <p className="text-sm font-headline font-medium text-text-primary">{intg.name}</p>
                     <div className="flex items-center gap-1.5 mt-0.5">
                       <span
                         className={`h-2 w-2 rounded-full ${
-                          intg.connected ? "bg-[#0D9488]" : "bg-[#DC2626]"
+                          intg.connected ? "bg-accent" : "bg-status-critical"
                         }`}
                       />
-                      <span className="text-xs font-body text-[#4B5563]">
+                      <span className="text-xs font-body text-text-secondary">
                         {intg.connected ? "Connected" : "Disconnected"}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="text-xs font-body text-[#4B5563]">{intg.detail}</p>
+              <p className="text-xs font-body text-text-secondary">{intg.detail}</p>
               {intg.connected ? (
-                <p className="text-xs font-mono text-[#9CA3AF]">{intg.lastActivity}</p>
+                <p className="text-xs font-mono text-text-muted">{intg.lastActivity}</p>
               ) : (
-                <button className="self-start px-3 py-1.5 rounded border border-[#0D9488] text-xs font-headline font-medium text-[#0D9488] hover:bg-[#F0FDFA] transition-colors cursor-pointer">
+                <button className="self-start px-3 py-1.5 rounded border border-accent text-xs font-headline font-medium text-accent hover:bg-accent-muted transition-colors cursor-pointer">
                   Configure
                 </button>
               )}
@@ -279,22 +279,22 @@ export default function SettingsPage() {
       {activeTab === "Notifications" && (
         <div className="flex flex-col gap-5">
           {/* Notification Preferences Table */}
-          <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
-            <div className="grid grid-cols-[1fr_80px_80px_80px_80px] gap-3 px-4 py-2.5 border-b border-[#E5E7EB] bg-[#F9FAFB]">
-              <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Category</span>
-              <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium text-center">In-App</span>
-              <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium text-center">Email</span>
-              <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium text-center">Teams</span>
-              <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium text-center">SMS</span>
+          <div className="bg-surface-card rounded border border-surface-border shadow-card">
+            <div className="grid grid-cols-[1fr_80px_80px_80px_80px] gap-3 px-4 py-2.5 border-b border-surface-border bg-surface-hover">
+              <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Category</span>
+              <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium text-center">In-App</span>
+              <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium text-center">Email</span>
+              <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium text-center">Teams</span>
+              <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium text-center">SMS</span>
             </div>
             {notifications.map((notif, i) => (
               <div
                 key={notif.label}
-                className={`grid grid-cols-[1fr_80px_80px_80px_80px] gap-3 px-4 py-3 border-b border-[#E5E7EB] ${
-                  i % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"
+                className={`grid grid-cols-[1fr_80px_80px_80px_80px] gap-3 px-4 py-3 border-b border-surface-border ${
+                  i % 2 === 1 ? "bg-surface-hover" : "bg-surface-card"
                 }`}
               >
-                <span className="text-sm font-body text-[#111827]">{notif.label}</span>
+                <span className="text-sm font-body text-text-primary">{notif.label}</span>
                 <div className="flex justify-center">
                   <Checkbox checked={notif.inApp} onChange={() => toggleNotif(i, "inApp")} />
                 </div>
@@ -312,29 +312,29 @@ export default function SettingsPage() {
           </div>
 
           {/* Quiet Hours */}
-          <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+          <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-headline font-medium text-[#111827]">Quiet Hours</h3>
-                <p className="text-xs font-body text-[#9CA3AF] mt-0.5">Suppress non-critical notifications during off hours</p>
+                <h3 className="text-sm font-headline font-medium text-text-primary">Quiet Hours</h3>
+                <p className="text-xs font-body text-text-muted mt-0.5">Suppress non-critical notifications during off hours</p>
               </div>
               <Toggle checked={quietHours} onChange={() => setQuietHours(!quietHours)} />
             </div>
             {quietHours && (
-              <div className="flex items-center gap-3 mt-3 pt-3 border-t border-[#E5E7EB]">
-                <label className="text-xs font-body text-[#4B5563]">From</label>
+              <div className="flex items-center gap-3 mt-3 pt-3 border-t border-surface-border">
+                <label className="text-xs font-body text-text-secondary">From</label>
                 <input
                   type="time"
                   value={quietStart}
                   onChange={(e) => setQuietStart(e.target.value)}
-                  className="px-2 py-1 rounded border border-[#E5E7EB] text-sm font-mono text-[#111827] focus:outline-none focus:ring-1 focus:ring-[#0D9488]"
+                  className="px-2 py-1 rounded border border-surface-border text-sm font-mono text-text-primary focus:outline-none focus:ring-1 focus:ring-accent"
                 />
-                <label className="text-xs font-body text-[#4B5563]">To</label>
+                <label className="text-xs font-body text-text-secondary">To</label>
                 <input
                   type="time"
                   value={quietEnd}
                   onChange={(e) => setQuietEnd(e.target.value)}
-                  className="px-2 py-1 rounded border border-[#E5E7EB] text-sm font-mono text-[#111827] focus:outline-none focus:ring-1 focus:ring-[#0D9488]"
+                  className="px-2 py-1 rounded border border-surface-border text-sm font-mono text-text-primary focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
             )}
@@ -345,8 +345,8 @@ export default function SettingsPage() {
       {activeTab === "System" && (
         <div className="flex flex-col gap-4">
           {/* System Info */}
-          <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-            <h3 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">System Information</h3>
+          <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+            <h3 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">System Information</h3>
             <div className="grid grid-cols-2 gap-x-8 gap-y-3">
               {[
                 ["Version", "Reflex v2.1.0"],
@@ -357,16 +357,16 @@ export default function SettingsPage() {
                 ["Last Updated", "2026-03-28"],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-center justify-between">
-                  <span className="text-sm font-body text-[#4B5563]">{label}</span>
-                  <span className="text-sm font-mono text-[#111827]">{value}</span>
+                  <span className="text-sm font-body text-text-secondary">{label}</span>
+                  <span className="text-sm font-mono text-text-primary">{value}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Data Retention */}
-          <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-            <h3 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">Data Retention</h3>
+          <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+            <h3 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">Data Retention</h3>
             <div className="flex flex-col gap-2">
               {[
                 ["Sensor Data", "2 years"],
@@ -374,8 +374,8 @@ export default function SettingsPage() {
                 ["Recommendations", "Indefinite"],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-center justify-between">
-                  <span className="text-sm font-body text-[#4B5563]">{label}</span>
-                  <span className="text-sm font-mono text-[#111827]">{value}</span>
+                  <span className="text-sm font-body text-text-secondary">{label}</span>
+                  <span className="text-sm font-mono text-text-primary">{value}</span>
                 </div>
               ))}
             </div>
@@ -383,10 +383,10 @@ export default function SettingsPage() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <button className="px-4 py-2 rounded border border-[#E5E7EB] text-sm font-headline font-medium text-[#4B5563] hover:bg-[#F9FAFB] transition-colors cursor-pointer">
+            <button className="px-4 py-2 rounded border border-surface-border text-sm font-headline font-medium text-text-secondary hover:bg-surface-hover transition-colors cursor-pointer">
               Contact Administrator
             </button>
-            <button className="px-4 py-2 rounded border border-[#E5E7EB] text-sm font-headline font-medium text-[#4B5563] hover:bg-[#F9FAFB] transition-colors cursor-pointer">
+            <button className="px-4 py-2 rounded border border-surface-border text-sm font-headline font-medium text-text-secondary hover:bg-surface-hover transition-colors cursor-pointer">
               Export System Report
             </button>
           </div>

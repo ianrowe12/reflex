@@ -1,15 +1,10 @@
 "use client";
 
 import { sensorHealthData } from "@/data/mock-data";
+import { useChartTheme } from "@/lib/chart-theme";
 
 const units = ["CDU", "FCC", "HCU", "Reformer", "Blend"] as const;
 const sensorTypes = ["Temp", "Pressure", "Flow", "Level", "Comp"] as const;
-
-const statusColors: Record<string, string> = {
-  healthy: "#0D9488",
-  degraded: "#D97706",
-  substituted: "#DC2626",
-};
 
 const statusLabels: Record<string, string> = {
   healthy: "Healthy",
@@ -25,15 +20,23 @@ function getStatus(unit: string, sensorType: string): string {
 }
 
 export function SensorHealthMatrix() {
+  const t = useChartTheme();
+
+  const statusColors: Record<string, string> = {
+    healthy: t.healthy,
+    degraded: t.warning,
+    substituted: t.critical,
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-headline font-semibold text-[#111827]">
+        <h3 className="text-sm font-headline font-semibold text-text-primary">
           Sensor Health Matrix
         </h3>
         <div className="flex items-center gap-3">
           {Object.entries(statusLabels).map(([key, label]) => (
-            <span key={key} className="flex items-center gap-1.5 text-[10px] font-mono text-[#9CA3AF]">
+            <span key={key} className="flex items-center gap-1.5 text-[10px] font-mono text-text-muted">
               <span
                 className="inline-block w-3 h-3 rounded-sm"
                 style={{ backgroundColor: statusColors[key] }}
@@ -48,13 +51,13 @@ export function SensorHealthMatrix() {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="text-left text-[10px] font-mono font-normal text-[#9CA3AF] uppercase tracking-wider pb-2 pr-3">
+              <th className="text-left text-[10px] font-mono font-normal text-text-muted uppercase tracking-wider pb-2 pr-3">
                 Unit
               </th>
               {sensorTypes.map((st) => (
                 <th
                   key={st}
-                  className="text-center text-[10px] font-mono font-normal text-[#9CA3AF] uppercase tracking-wider pb-2 px-1"
+                  className="text-center text-[10px] font-mono font-normal text-text-muted uppercase tracking-wider pb-2 px-1"
                 >
                   {st}
                 </th>
@@ -64,7 +67,7 @@ export function SensorHealthMatrix() {
           <tbody>
             {units.map((unit) => (
               <tr key={unit}>
-                <td className="text-xs font-mono text-[#4B5563] py-1.5 pr-3 whitespace-nowrap">
+                <td className="text-xs font-mono text-text-secondary py-1.5 pr-3 whitespace-nowrap">
                   {unit}
                 </td>
                 {sensorTypes.map((st) => {

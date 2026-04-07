@@ -340,17 +340,17 @@ IIS Analysis:
 ];
 
 const typeColors: Record<LogType, { text: string; bg: string }> = {
-  System: { text: "text-[#2563EB]", bg: "bg-blue-50" },
-  User: { text: "text-[#0D9488]", bg: "bg-teal-50" },
-  API: { text: "text-[#7C3AED]", bg: "bg-purple-50" },
-  Alert: { text: "text-[#DC2626]", bg: "bg-red-50" },
+  System: { text: "text-status-info", bg: "bg-blue-50 dark:bg-blue-500/15" },
+  User: { text: "text-accent", bg: "bg-accent-muted" },
+  API: { text: "text-purple-700 dark:text-purple-300", bg: "bg-purple-50 dark:bg-purple-500/15" },
+  Alert: { text: "text-status-critical", bg: "bg-red-50 dark:bg-red-500/15" },
 };
 
 const severityDot: Record<Severity, string> = {
-  Info: "bg-[#9CA3AF]",
-  Warning: "bg-[#D97706]",
-  Error: "bg-[#DC2626]",
-  Critical: "bg-[#DC2626] animate-pulse",
+  Info: "bg-text-muted",
+  Warning: "bg-status-warning",
+  Error: "bg-status-critical",
+  Critical: "bg-status-critical animate-pulse",
 };
 
 const typeFilters: ("All" | LogType)[] = ["All", "System", "User", "API", "Alert"];
@@ -381,26 +381,26 @@ export default function LogsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="font-headline text-xl font-bold text-[#111827]">System Logs</h1>
+          <h1 className="font-headline text-xl font-bold text-text-primary">System Logs</h1>
           <LiveIndicator />
         </div>
-        <span className="font-mono text-xs text-[#9CA3AF]">Last sync: 4s ago</span>
+        <span className="font-mono text-xs text-text-muted">Last sync: 4s ago</span>
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
+      <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
         <div className="flex flex-wrap items-center gap-4">
           {/* Type Filter */}
           <div className="flex items-center gap-1">
-            <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mr-2">Type</span>
+            <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mr-2">Type</span>
             {typeFilters.map((t) => (
               <button
                 key={t}
                 onClick={() => setActiveType(t)}
                 className={`px-3 py-1 rounded-full text-xs font-headline font-medium transition-colors ${
                   activeType === t
-                    ? "bg-[#0D9488] text-white"
-                    : "bg-[#F9FAFB] text-[#4B5563] border border-[#E5E7EB] hover:bg-[#F0FDFA]"
+                    ? "bg-accent text-white"
+                    : "bg-surface-hover text-text-secondary border border-surface-border hover:bg-accent-muted"
                 }`}
               >
                 {t}
@@ -410,15 +410,15 @@ export default function LogsPage() {
 
           {/* Severity Filter */}
           <div className="flex items-center gap-1">
-            <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mr-2">Severity</span>
+            <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mr-2">Severity</span>
             {severityFilters.map((s) => (
               <button
                 key={s}
                 onClick={() => setActiveSeverity(s)}
                 className={`px-3 py-1 rounded-full text-xs font-headline font-medium transition-colors ${
                   activeSeverity === s
-                    ? "bg-[#0D9488] text-white"
-                    : "bg-[#F9FAFB] text-[#4B5563] border border-[#E5E7EB] hover:bg-[#F0FDFA]"
+                    ? "bg-accent text-white"
+                    : "bg-surface-hover text-text-secondary border border-surface-border hover:bg-accent-muted"
                 }`}
               >
                 {s}
@@ -429,13 +429,13 @@ export default function LogsPage() {
           {/* Search */}
           <div className="flex-1 min-w-[200px]">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#9CA3AF]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-text-muted" />
               <input
                 type="text"
                 placeholder="Search logs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 rounded border border-[#E5E7EB] bg-[#F9FAFB] text-sm font-body text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-1 focus:ring-[#0D9488] focus:border-[#0D9488]"
+                className="w-full pl-9 pr-3 py-1.5 rounded border border-surface-border bg-surface-hover text-sm font-body text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
               />
             </div>
           </div>
@@ -443,14 +443,14 @@ export default function LogsPage() {
       </div>
 
       {/* Log Table */}
-      <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+      <div className="bg-surface-card rounded border border-surface-border shadow-card">
         {/* Table Header */}
-        <div className="grid grid-cols-[160px_80px_90px_130px_1fr] gap-3 px-4 py-2.5 border-b border-[#E5E7EB] bg-[#F9FAFB]">
-          <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Timestamp</span>
-          <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Type</span>
-          <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Severity</span>
-          <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Source</span>
-          <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Message</span>
+        <div className="grid grid-cols-[160px_80px_90px_130px_1fr] gap-3 px-4 py-2.5 border-b border-surface-border bg-surface-hover">
+          <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Timestamp</span>
+          <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Type</span>
+          <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Severity</span>
+          <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Source</span>
+          <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Message</span>
         </div>
 
         {/* Rows */}
@@ -458,11 +458,11 @@ export default function LogsPage() {
           <div key={entry.id}>
             <button
               onClick={() => setExpandedRow(expandedRow === entry.id ? null : entry.id)}
-              className={`w-full grid grid-cols-[160px_80px_90px_130px_1fr] gap-3 px-4 py-2.5 text-left border-b border-[#E5E7EB] transition-colors hover:bg-[#F0FDFA] ${
-                i % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"
+              className={`w-full grid grid-cols-[160px_80px_90px_130px_1fr] gap-3 px-4 py-2.5 text-left border-b border-surface-border transition-colors hover:bg-accent-muted ${
+                i % 2 === 1 ? "bg-surface-hover" : "bg-surface-card"
               }`}
             >
-              <span className="font-mono text-xs text-[#4B5563] tabular-nums">{entry.timestamp}</span>
+              <span className="font-mono text-xs text-text-secondary tabular-nums">{entry.timestamp}</span>
               <span>
                 <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-medium uppercase tracking-wider ${typeColors[entry.type].text} ${typeColors[entry.type].bg}`}>
                   {entry.type}
@@ -470,48 +470,48 @@ export default function LogsPage() {
               </span>
               <span className="flex items-center gap-1.5">
                 <span className={`h-2 w-2 rounded-full shrink-0 ${severityDot[entry.severity]}`} />
-                <span className="text-xs font-body text-[#4B5563]">{entry.severity}</span>
+                <span className="text-xs font-body text-text-secondary">{entry.severity}</span>
               </span>
-              <span className="font-mono text-xs text-[#4B5563] truncate">{entry.source}</span>
+              <span className="font-mono text-xs text-text-secondary truncate">{entry.source}</span>
               <span className="flex items-center gap-2">
                 {expandedRow === entry.id ? (
-                  <ChevronDown className="h-3.5 w-3.5 text-[#9CA3AF] shrink-0" />
+                  <ChevronDown className="h-3.5 w-3.5 text-text-muted shrink-0" />
                 ) : (
-                  <ChevronRight className="h-3.5 w-3.5 text-[#9CA3AF] shrink-0" />
+                  <ChevronRight className="h-3.5 w-3.5 text-text-muted shrink-0" />
                 )}
-                <span className="text-sm font-body text-[#111827] truncate">{entry.message}</span>
+                <span className="text-sm font-body text-text-primary truncate">{entry.message}</span>
               </span>
             </button>
 
             {/* Expanded Detail */}
             {expandedRow === entry.id && (
-              <div className="px-4 py-3 bg-[#F9FAFB] border-b border-[#E5E7EB]">
+              <div className="px-4 py-3 bg-surface-hover border-b border-surface-border">
                 <div className="ml-[160px] flex flex-col gap-3">
                   {/* Full Message */}
                   {entry.fullMessage && (
                     <div>
-                      <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Full Message</span>
-                      <p className="mt-1 text-sm font-body text-[#111827]">{entry.fullMessage}</p>
+                      <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Full Message</span>
+                      <p className="mt-1 text-sm font-body text-text-primary">{entry.fullMessage}</p>
                     </div>
                   )}
 
                   {/* Stack Trace */}
                   {entry.stackTrace && (
                     <div>
-                      <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Stack Trace</span>
-                      <pre className="mt-1 p-3 rounded bg-[#1F2937] text-[#E5E7EB] text-xs font-mono overflow-x-auto whitespace-pre-wrap">{entry.stackTrace}</pre>
+                      <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Stack Trace</span>
+                      <pre className="mt-1 p-3 rounded bg-gray-900 dark:bg-black/40 text-gray-100 dark:text-gray-200 text-xs font-mono overflow-x-auto whitespace-pre-wrap">{entry.stackTrace}</pre>
                     </div>
                   )}
 
                   {/* Metadata */}
                   {entry.metadata && (
                     <div>
-                      <span className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Metadata</span>
+                      <span className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium">Metadata</span>
                       <div className="mt-1 grid grid-cols-2 gap-x-6 gap-y-1">
                         {Object.entries(entry.metadata).map(([key, value]) => (
                           <div key={key} className="flex items-center gap-2">
-                            <span className="text-xs font-body text-[#9CA3AF]">{key}:</span>
-                            <span className="text-xs font-mono text-[#111827]">{value}</span>
+                            <span className="text-xs font-body text-text-muted">{key}:</span>
+                            <span className="text-xs font-mono text-text-primary">{value}</span>
                           </div>
                         ))}
                       </div>
@@ -524,22 +524,22 @@ export default function LogsPage() {
         ))}
 
         {filtered.length === 0 && (
-          <div className="px-4 py-8 text-center text-sm font-body text-[#9CA3AF]">
+          <div className="px-4 py-8 text-center text-sm font-body text-text-muted">
             No log entries match the current filters.
           </div>
         )}
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] px-4 py-2.5">
-        <span className="text-sm font-body text-[#4B5563]">
-          Showing <span className="font-mono font-medium text-[#111827]">1–{filtered.length}</span> of <span className="font-mono font-medium text-[#111827]">142</span> entries
+      <div className="flex items-center justify-between bg-surface-card rounded border border-surface-border shadow-card px-4 py-2.5">
+        <span className="text-sm font-body text-text-secondary">
+          Showing <span className="font-mono font-medium text-text-primary">1–{filtered.length}</span> of <span className="font-mono font-medium text-text-primary">142</span> entries
         </span>
         <div className="flex items-center gap-2">
-          <button className="px-3 py-1.5 rounded border border-[#E5E7EB] text-xs font-headline font-medium text-[#4B5563] hover:bg-[#F9FAFB] transition-colors cursor-pointer">
+          <button className="px-3 py-1.5 rounded border border-surface-border text-xs font-headline font-medium text-text-secondary hover:bg-surface-hover transition-colors cursor-pointer">
             Previous
           </button>
-          <button className="px-3 py-1.5 rounded border border-[#E5E7EB] text-xs font-headline font-medium text-[#4B5563] hover:bg-[#F9FAFB] transition-colors cursor-pointer">
+          <button className="px-3 py-1.5 rounded border border-surface-border text-xs font-headline font-medium text-text-secondary hover:bg-surface-hover transition-colors cursor-pointer">
             Next
           </button>
         </div>

@@ -16,11 +16,11 @@ function StepCircle({ stepNumber, status }: StepCircleProps) {
     <div
       className={clsx(
         "w-8 h-8 rounded-full flex items-center justify-center text-xs font-headline font-semibold shrink-0 transition-colors",
-        status === "completed" && "bg-[#0D9488] text-white",
+        status === "completed" && "bg-accent text-white",
         status === "current" &&
-          "bg-[#0D9488] text-white ring-4 ring-[#0D9488]/20",
+          "bg-accent text-white ring-4 ring-accent/20",
         status === "upcoming" &&
-          "bg-white text-[#9CA3AF] border-2 border-[#E5E7EB]",
+          "bg-surface-card text-text-muted border-2 border-surface-border",
       )}
     >
       {status === "completed" ? (
@@ -76,8 +76,8 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
                 className={clsx(
                   "text-[10px] font-body uppercase tracking-wider",
                   status === "upcoming"
-                    ? "text-[#9CA3AF]"
-                    : "text-[#0D9488] font-medium",
+                    ? "text-text-muted"
+                    : "text-accent font-medium",
                 )}
               >
                 {label}
@@ -89,7 +89,7 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
               <div
                 className={clsx(
                   "flex-1 h-0.5 mx-2 mt-[-12px] self-start translate-y-[16px]",
-                  step < currentStep ? "bg-[#0D9488]" : "bg-[#E5E7EB]",
+                  step < currentStep ? "bg-accent" : "bg-surface-border",
                 )}
               />
             )}
@@ -133,8 +133,8 @@ export function SelectionGrid({
             "rounded border text-sm font-body font-medium transition-colors cursor-pointer",
             buttonHeight,
             opt.id === selectedId
-              ? "border-[#0D9488] bg-[#F0FDFA] text-[#0D9488]"
-              : "border-[#E5E7EB] bg-white text-[#111827] hover:border-[#9CA3AF] hover:bg-[#F9FAFB]",
+              ? "border-accent bg-accent-muted text-accent"
+              : "border-surface-border bg-surface-card text-text-primary hover:border-text-muted hover:bg-surface-hover",
           )}
         >
           {opt.label}
@@ -156,17 +156,17 @@ export function CompletedSummary({ labels }: CompletedSummaryProps) {
   if (labels.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-body text-[#4B5563] bg-[#F9FAFB] rounded px-3 py-2 border border-[#E5E7EB]">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-body text-text-secondary bg-surface-hover rounded px-3 py-2 border border-surface-border">
       {labels.map((l, i) => (
         <span key={l.step} className="flex items-center gap-1 whitespace-nowrap">
-          <span className="font-medium text-[#111827]">{l.step}:</span>
+          <span className="font-medium text-text-primary">{l.step}:</span>
           <span>{l.value}</span>
           <svg
             width="12"
             height="12"
             viewBox="0 0 12 12"
             fill="none"
-            className="text-[#0D9488] shrink-0"
+            className="text-accent shrink-0"
             aria-hidden="true"
           >
             <path
@@ -178,7 +178,7 @@ export function CompletedSummary({ labels }: CompletedSummaryProps) {
             />
           </svg>
           {i < labels.length - 1 && (
-            <span className="text-[#E5E7EB] ml-1">|</span>
+            <span className="text-surface-border ml-1">|</span>
           )}
         </span>
       ))}

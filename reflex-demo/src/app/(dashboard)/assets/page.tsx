@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { KPICard } from "@/components/ui/KPICard";
 import type { KPICardData } from "@/types";
+import { useChartTheme } from "@/lib/chart-theme";
 
 /* ── Mock Data ────────────────────────────────────────────────── */
 
@@ -76,27 +77,28 @@ const upcomingMaintenance: MaintenanceItem[] = [
 ];
 
 const dotColor: Record<string, string> = {
-  routine: "bg-[#9CA3AF]",
-  corrective: "bg-[#DC2626]",
-  predictive: "bg-[#0D9488]",
-  inspection: "bg-[#2563EB]",
+  routine: "bg-text-muted",
+  corrective: "bg-status-critical",
+  predictive: "bg-accent",
+  inspection: "bg-status-info",
 };
 
 /* ── Page Component ───────────────────────────────────────────── */
 
 export default function AssetsPage() {
   const [activeTab, setActiveTab] = useState("All");
+  const t = useChartTheme();
 
   const filtered = activeTab === "All" ? assets : assets.filter((a) => a.type === activeTab);
 
   return (
     <div className="flex flex-col gap-5">
       {/* Integration notice */}
-      <div className="bg-[#F0FDFA] border border-[#CCFBF1] rounded p-3 flex items-start gap-3">
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-white text-[#0D9488] border border-[#CCFBF1] shrink-0 mt-0.5">
+      <div className="bg-accent-muted border border-accent-light rounded p-3 flex items-start gap-3">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-surface-card text-accent border border-accent-light shrink-0 mt-0.5">
           Optional Integration
         </span>
-        <p className="text-xs font-body text-[#0F766E] leading-relaxed">
+        <p className="text-xs font-body text-accent-hover leading-relaxed">
           Asset Management is an optional integration. Connect your asset management system (e.g. SAP PM, Maximo, Aveva APM) to populate live equipment data. The data shown below is sample data for demonstration purposes.
         </p>
       </div>
@@ -104,12 +106,12 @@ export default function AssetsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="font-headline text-xl font-bold text-[#111827]">Asset Management</h1>
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-[#F0FDFA] text-[#0D9488] border border-[#CCFBF1]">
+          <h1 className="font-headline text-xl font-bold text-text-primary">Asset Management</h1>
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-accent-muted text-accent border border-accent-light">
             System Normal
           </span>
         </div>
-        <span className="text-xs font-mono text-[#9CA3AF]">Synced 12s ago</span>
+        <span className="text-xs font-mono text-text-muted">Synced 12s ago</span>
       </div>
 
       {/* KPI strip */}
@@ -120,9 +122,9 @@ export default function AssetsPage() {
       </div>
 
       {/* Filter tabs + Table */}
-      <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+      <div className="bg-surface-card rounded border border-surface-border shadow-card">
         {/* Tabs */}
-        <div className="flex border-b border-[#E5E7EB]">
+        <div className="flex border-b border-surface-border">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -130,8 +132,8 @@ export default function AssetsPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 text-xs font-headline uppercase tracking-wider text-center transition-colors cursor-pointer ${
                 activeTab === tab.id
-                  ? "text-[#0D9488] border-b-2 border-[#0D9488] font-semibold"
-                  : "text-[#9CA3AF] hover:text-[#4B5563]"
+                  ? "text-accent border-b-2 border-accent font-semibold"
+                  : "text-text-muted hover:text-text-secondary"
               }`}
             >
               {tab.label}
@@ -143,43 +145,43 @@ export default function AssetsPage() {
         <div className="p-4 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#E5E7EB]">
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Asset ID</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Name</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Unit</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Type</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Health</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Last Inspection</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Next Maintenance</th>
-                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF] font-medium">Status</th>
+              <tr className="border-b border-surface-border">
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Asset ID</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Name</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Unit</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Type</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Health</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Last Inspection</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Next Maintenance</th>
+                <th className="text-left py-2 text-[10px] font-headline uppercase tracking-wider text-text-muted font-medium">Status</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((a, i) => {
                 const barColor =
-                  a.health > 80 ? "#0D9488" : a.health >= 50 ? "#D97706" : "#DC2626";
+                  a.health > 80 ? t.healthy : a.health >= 50 ? t.warning : t.critical;
                 return (
                   <tr
                     key={a.id}
-                    className={`border-b border-[#F3F4F6] last:border-0 ${i % 2 === 1 ? "bg-[#F9FAFB]" : ""}`}
+                    className={`border-b border-surface-border-subtle last:border-0 ${i % 2 === 1 ? "bg-surface-hover" : ""}`}
                   >
-                    <td className="py-2 font-mono text-xs text-[#111827]">{a.id}</td>
-                    <td className="py-2 font-body text-xs text-[#111827]">{a.name}</td>
-                    <td className="py-2 font-body text-xs text-[#4B5563]">{a.unit}</td>
-                    <td className="py-2 font-body text-xs text-[#4B5563]">{a.type}</td>
+                    <td className="py-2 font-mono text-xs text-text-primary">{a.id}</td>
+                    <td className="py-2 font-body text-xs text-text-primary">{a.name}</td>
+                    <td className="py-2 font-body text-xs text-text-secondary">{a.unit}</td>
+                    <td className="py-2 font-body text-xs text-text-secondary">{a.type}</td>
                     <td className="py-2">
                       <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-[#F3F4F6] rounded-full overflow-hidden">
+                        <div className="w-16 h-2 bg-surface-border-subtle rounded-full overflow-hidden">
                           <div
                             className="h-full rounded-full"
                             style={{ width: `${a.health}%`, backgroundColor: barColor }}
                           />
                         </div>
-                        <span className="font-mono text-xs text-[#111827]">{a.health}</span>
+                        <span className="font-mono text-xs text-text-primary">{a.health}</span>
                       </div>
                     </td>
-                    <td className="py-2 font-mono text-xs text-[#4B5563]">{a.lastInspection}</td>
-                    <td className="py-2 font-mono text-xs text-[#4B5563]">{a.nextMaintenance}</td>
+                    <td className="py-2 font-mono text-xs text-text-secondary">{a.lastInspection}</td>
+                    <td className="py-2 font-mono text-xs text-text-secondary">{a.nextMaintenance}</td>
                     <td className="py-2">
                       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-semibold uppercase tracking-wide ${statusColor[a.status]}`}>
                         {a.status}
@@ -194,8 +196,8 @@ export default function AssetsPage() {
       </div>
 
       {/* Upcoming Maintenance */}
-      <div className="bg-white rounded border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4">
-        <h2 className="text-xs font-headline uppercase tracking-wider text-[#9CA3AF] font-medium mb-3">
+      <div className="bg-surface-card rounded border border-surface-border shadow-card p-4">
+        <h2 className="text-xs font-headline uppercase tracking-wider text-text-muted font-medium mb-3">
           Upcoming Maintenance
         </h2>
         <div className="flex flex-col gap-0">
@@ -205,17 +207,17 @@ export default function AssetsPage() {
               <div className="flex flex-col items-center pt-1">
                 <div className={`w-2 h-2 rounded-full shrink-0 ${dotColor[item.type]}`} />
                 {i < upcomingMaintenance.length - 1 && (
-                  <div className="w-px flex-1 bg-[#E5E7EB] mt-1" />
+                  <div className="w-px flex-1 bg-surface-border mt-1" />
                 )}
               </div>
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono tabular-nums text-xs text-[#9CA3AF]">{item.date}</span>
-                  <span className="text-xs font-headline font-semibold text-[#111827]">{item.asset}</span>
+                  <span className="font-mono tabular-nums text-xs text-text-muted">{item.date}</span>
+                  <span className="text-xs font-headline font-semibold text-text-primary">{item.asset}</span>
                 </div>
-                <p className="text-xs font-body text-[#4B5563] mt-0.5">{item.work}</p>
-                <span className="text-[10px] font-mono text-[#9CA3AF]">Est. {item.duration}</span>
+                <p className="text-xs font-body text-text-secondary mt-0.5">{item.work}</p>
+                <span className="text-[10px] font-mono text-text-muted">Est. {item.duration}</span>
               </div>
             </div>
           ))}

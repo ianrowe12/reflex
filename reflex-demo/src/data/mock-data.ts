@@ -199,6 +199,7 @@ export const wizardTypes = [
   { id: "feed", label: "Feed Quality" },
   { id: "safety", label: "Safety" },
   { id: "staffing", label: "Staffing" },
+  { id: "manual", label: "Other (Describe Manually)" },
 ];
 
 export const wizardConstraints: Record<string, { id: string; label: string }[]> = {

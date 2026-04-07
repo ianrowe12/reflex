@@ -12,6 +12,7 @@ import type {
   CrudeSlate,
   UllageByProduct,
   ProductReady,
+  EquipmentEmission,
 } from "@/types";
 
 export const SITE = {
@@ -20,6 +21,7 @@ export const SITE = {
   shift: "Day Shift (06:00–18:00)",
   shiftRemaining: "4h 23m remaining",
   marginCaptured: 1247832,
+  marginRatePerDay: 1_200_000,
   marginTrend: 14.2,
   captureRate: 82,
 };
@@ -27,8 +29,65 @@ export const SITE = {
 export const heroKPIs: KPICardData[] = [
   { label: "Throughput", value: 412.8, unit: "MBPD", precision: 1, sparkline: [390, 395, 400, 405, 412, 410, 412.8] },
   { label: "Energy Index", value: 88.4, unit: "EEI", precision: 1, sparkline: [85, 86, 87, 88, 88.4] },
-  { label: "Safety Health", value: 0.98, precision: 2, sparkline: [0.95, 0.96, 0.97, 0.98, 0.98] },
   { label: "Emissions", value: 14.2, unit: "MT/d", precision: 1, sparkline: [15.1, 14.8, 14.5, 14.3, 14.2], status: "healthy" },
+];
+
+export const emissionsKPIs: KPICardData[] = [
+  { label: "Total SOx (today)", value: 8.4, unit: "t/day", precision: 1, status: "healthy" },
+  { label: "Total NOx (today)", value: 5.2, unit: "t/day", precision: 1, status: "healthy" },
+  { label: "Wet Gas Scrubber Output", value: 92, unit: "% efficiency", precision: 0, status: "healthy" },
+  { label: "Closest to Limit", value: 92, unit: "% of EPA limit", precision: 0, status: "critical", caption: "FCC Regenerator (1h SOx)" },
+];
+
+export const equipmentEmissions: EquipmentEmission[] = [
+  {
+    id: "wgs-fcc",
+    equipment: "Wet Gas Scrubber FCC",
+    pollutant: "SOx",
+    unit: "lb/hr",
+    currentRate: 18.4,
+    hour1Rolling: 19.2,
+    hour24Rolling: 21.7,
+    day7Rolling: 22.1,
+    day365Rolling: 23.8,
+    epaLimit: 30.0,
+  },
+  {
+    id: "fcc-regen",
+    equipment: "FCC Regenerator",
+    pollutant: "SOx",
+    unit: "lb/hr",
+    currentRate: 41.2,
+    hour1Rolling: 43.6,
+    hour24Rolling: 41.8,
+    day7Rolling: 39.4,
+    day365Rolling: 36.1,
+    epaLimit: 47.5,
+  },
+  {
+    id: "cdu-heater",
+    equipment: "CDU Heater",
+    pollutant: "NOx",
+    unit: "lb/hr",
+    currentRate: 12.6,
+    hour1Rolling: 13.1,
+    hour24Rolling: 12.9,
+    day7Rolling: 12.4,
+    day365Rolling: 11.8,
+    epaLimit: 18.0,
+  },
+  {
+    id: "sru",
+    equipment: "Sulfur Recovery Unit",
+    pollutant: "SOx",
+    unit: "lb/hr",
+    currentRate: 4.7,
+    hour1Rolling: 5.1,
+    hour24Rolling: 5.3,
+    day7Rolling: 5.6,
+    day365Rolling: 5.9,
+    epaLimit: 8.0,
+  },
 ];
 
 export const recommendations: Recommendation[] = [

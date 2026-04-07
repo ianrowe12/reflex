@@ -13,6 +13,22 @@ export interface KPICardData {
   trendLabel?: string;
   sparkline?: number[];
   status?: "healthy" | "warning" | "critical";
+  caption?: string;
+}
+
+export type Pollutant = "SOx" | "NOx" | "PM" | "VOC" | "CO";
+
+export interface EquipmentEmission {
+  id: string;
+  equipment: string;
+  pollutant: Pollutant;
+  unit: string;
+  currentRate: number;
+  hour1Rolling: number;
+  hour24Rolling: number;
+  day7Rolling: number;
+  day365Rolling: number;
+  epaLimit: number;
 }
 
 export interface RecommendationDelta {

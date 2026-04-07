@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatedMetric } from "@/components/ui/AnimatedMetric";
 import { KPICard } from "@/components/ui/KPICard";
 import { RecommendationCard } from "@/components/operations/RecommendationCard";
@@ -24,9 +25,19 @@ function useToast(duration = 3000) {
 }
 
 export default function OperationsPage() {
+  const router = useRouter();
   const [wizardOpen, setWizardOpen] = useState(false);
   const [optimizeToast, showOptimizeToast] = useToast();
   const [exportToast, showExportToast] = useToast();
+
+  const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const v = e.target.value;
+    if (v === "all") return;
+    router.push(`/units/${v}`);
+  };
+
+  const projection30 = (SITE.marginRatePerDay * 30) / 1_000_000;
+  const projectionAnnual = (SITE.marginRatePerDay * 365) / 1_000_000;
 
   return (
     <div className="flex flex-col gap-5">
@@ -43,19 +54,37 @@ export default function OperationsPage() {
             </span>
             <div className="flex items-baseline gap-3">
               <AnimatedMetric
-                value={SITE.marginCaptured}
+                value={SITE.marginRatePerDay / 1_000_000}
                 prefix="$"
-                precision={0}
+                suffix="M / day"
+                precision={1}
                 className="text-4xl font-bold text-[#111827]"
               />
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold font-mono bg-[#F0FDFA] text-[#0D9488]">
                 +{SITE.marginTrend}%
               </span>
             </div>
+            <span className="text-xs font-body text-[#9CA3AF] mt-1">
+              30-day projection: ${projection30.toFixed(0)}M
+              {" · "}
+              Annual projection: ${projectionAnnual.toFixed(0)}M
+            </span>
           </div>
 
-          {/* Right: Action buttons */}
+          {/* Right: Unit selector + action buttons */}
           <div className="flex items-center gap-3">
+            <select
+              defaultValue="all"
+              onChange={handleUnitChange}
+              className="px-3 py-2 rounded text-sm font-body border border-[#E5E7EB] bg-white text-[#111827] hover:border-[#0D9488] focus:outline-none focus:border-[#0D9488] focus:ring-1 focus:ring-[#0D9488] cursor-pointer"
+              aria-label="Scope dashboard to unit"
+            >
+              <option value="all">All Units (Plant View)</option>
+              <option value="cdu">CDU</option>
+              <option value="fcc">FCC</option>
+              <option value="hcu">HCU</option>
+              <option value="reformer">Reformer</option>
+            </select>
             <button
               type="button"
               onClick={showOptimizeToast}
@@ -74,9 +103,14 @@ export default function OperationsPage() {
         </div>
 
         {/* KPI cards row */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           {heroKPIs.map((kpi) => (
-            <KPICard key={kpi.label} data={kpi} />
+            <KPICard
+              key={kpi.label}
+              data={kpi}
+              href={kpi.label === "Emissions" ? "/emissions" : undefined}
+              sparklineLabel={kpi.label === "Throughput" ? "daily avg" : undefined}
+            />
           ))}
         </div>
       </div>

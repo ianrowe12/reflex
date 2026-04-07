@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import clsx from "clsx";
 import { X, Camera, Mic, ChevronLeft, ChevronRight } from "lucide-react";
-import type { WizardState } from "@/types";
+import type { Constraint, WizardState } from "@/types";
 import {
   wizardUnits,
   wizardTypes,
@@ -108,11 +108,38 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
     setState((prev) => ({ ...prev, step }));
   }, []);
 
+  const manualDescriptionLength =
+    state.manualDescription?.trim().length ?? 0;
+
   const canContinue =
     (state.step === 1 && !!state.unit) ||
     (state.step === 2 && !!state.type) ||
-    (state.step === 3 && !!state.constraint) ||
+    (state.step === 3 &&
+      (state.type === "manual"
+        ? manualDescriptionLength >= 20
+        : !!state.constraint)) ||
     (state.step === 4 && state.severity !== undefined && !!state.duration);
+
+  /* Mock submit — constructs a Constraint object and logs it. A future
+     agent can wire this into a real store; for now ConstraintPanel reads
+     from static mock data, so we just verify the shape. */
+  const handleSubmit = useCallback(() => {
+    const isManual = state.type === "manual";
+    const submitted: Constraint = {
+      id: `c-${Date.now()}`,
+      unit: labelForUnit(state.unit),
+      equipment: isManual
+        ? state.manualTitle?.trim() || "Manual Constraint"
+        : labelForConstraint(state.unit, state.constraint),
+      severity: `${state.severity ?? 0}%`,
+      age: "Just now",
+      status: "active",
+      description: isManual ? state.manualDescription?.trim() : undefined,
+      manual: isManual ? true : undefined,
+    };
+    console.log("[ConstraintWizard] submitted constraint:", submitted);
+    handleClose();
+  }, [state, handleClose]);
 
   /* Close on Escape */
   useEffect(() => {
@@ -132,11 +159,22 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
     summaryLabels.push({ step: "S1", value: labelForUnit(state.unit) });
   if (state.step > 2 && state.type)
     summaryLabels.push({ step: "S2", value: labelForType(state.type) });
-  if (state.step > 3 && state.constraint)
-    summaryLabels.push({
-      step: "S3",
-      value: labelForConstraint(state.unit, state.constraint),
-    });
+  if (state.step > 3) {
+    if (state.type === "manual" && state.manualDescription) {
+      const trimmedTitle = state.manualTitle?.trim();
+      const preview =
+        trimmedTitle ||
+        (state.manualDescription.length > 36
+          ? `${state.manualDescription.slice(0, 36).trim()}…`
+          : state.manualDescription);
+      summaryLabels.push({ step: "S3", value: preview });
+    } else if (state.constraint) {
+      summaryLabels.push({
+        step: "S3",
+        value: labelForConstraint(state.unit, state.constraint),
+      });
+    }
+  }
   if (state.step > 4 && state.severity !== undefined)
     summaryLabels.push({
       step: "S4",
@@ -147,7 +185,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
   const stepTitles: Record<number, string> = {
     1: "Select Unit",
     2: "Select Type",
-    3: "Select Constraint",
+    3: state.type === "manual" ? "Describe Constraint" : "Select Constraint",
     4: "Set Constraint Severity",
     5: "Confirm Constraint",
   };
@@ -218,13 +256,21 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
               options={wizardTypes}
               selectedId={state.type}
               onSelect={(id) => {
-                setState((prev) => ({ ...prev, type: id, step: 3 }));
+                setState((prev) => ({
+                  ...prev,
+                  type: id,
+                  constraint: id === "manual" ? undefined : prev.constraint,
+                  manualDescription:
+                    id === "manual" ? prev.manualDescription : undefined,
+                  manualTitle: id === "manual" ? prev.manualTitle : undefined,
+                  step: 3,
+                }));
               }}
             />
           )}
 
-          {/* ---- Step 3: Select Constraint ---- */}
-          {state.step === 3 && (
+          {/* ---- Step 3: Select Constraint (predefined) ---- */}
+          {state.step === 3 && state.type !== "manual" && (
             <SelectionGrid
               options={
                 state.unit && wizardConstraints[state.unit]
@@ -236,6 +282,69 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                 setState((prev) => ({ ...prev, constraint: id, step: 4 }));
               }}
             />
+          )}
+
+          {/* ---- Step 3: Describe Constraint (manual) ---- */}
+          {state.step === 3 && state.type === "manual" && (
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="wizard-manual-title"
+                  className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF]"
+                >
+                  Short Title (optional)
+                </label>
+                <input
+                  id="wizard-manual-title"
+                  type="text"
+                  value={state.manualTitle ?? ""}
+                  onChange={(e) =>
+                    setState((prev) => ({
+                      ...prev,
+                      manualTitle: e.target.value,
+                    }))
+                  }
+                  placeholder="e.g. P-101 bearing concern"
+                  maxLength={80}
+                  className="h-10 px-3 rounded border border-[#E5E7EB] bg-white text-sm font-body text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#0D9488] transition-colors"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="wizard-manual-description"
+                  className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF]"
+                >
+                  Describe the Constraint
+                </label>
+                <textarea
+                  id="wizard-manual-description"
+                  value={state.manualDescription ?? ""}
+                  onChange={(e) =>
+                    setState((prev) => ({
+                      ...prev,
+                      manualDescription: e.target.value,
+                    }))
+                  }
+                  placeholder="e.g. Pump P-101 is making unusual vibrations, suspect bearing failure within 24 hours..."
+                  rows={6}
+                  className="px-3 py-2 rounded border border-[#E5E7EB] bg-white text-sm font-body text-[#111827] placeholder:text-[#9CA3AF] resize-none focus:outline-none focus:border-[#0D9488] transition-colors"
+                />
+                <div className="flex items-center justify-between text-[10px] font-body">
+                  <span className="text-[#9CA3AF]">Minimum 20 characters</span>
+                  <span
+                    className={clsx(
+                      "font-mono",
+                      manualDescriptionLength >= 20
+                        ? "text-[#0D9488]"
+                        : "text-[#9CA3AF]",
+                    )}
+                  >
+                    {manualDescriptionLength} / 20
+                  </span>
+                </div>
+              </div>
+            </div>
           )}
 
           {/* ---- Step 4: Set Severity ---- */}
@@ -371,30 +480,51 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
                     />
                   </svg>
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[#4B5563] w-24 shrink-0">
-                    Constraint:
-                  </span>
-                  <span className="font-medium">
-                    {labelForConstraint(state.unit, state.constraint)}
-                  </span>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    className="text-[#0D9488] ml-auto shrink-0"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M3 7.5L5.5 10L11 4"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </li>
+                {state.type === "manual" ? (
+                  <li className="flex flex-col gap-2 p-3 rounded border border-[#E5E7EB] bg-[#F9FAFB]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-headline uppercase tracking-wider text-[#9CA3AF]">
+                        Manual Description
+                      </span>
+                      <span className="text-[10px] font-headline uppercase tracking-wider text-[#0D9488] bg-[#F0FDFA] border border-[#0D9488]/30 rounded px-1.5 py-0.5">
+                        Manual
+                      </span>
+                    </div>
+                    {state.manualTitle?.trim() && (
+                      <span className="text-sm font-headline font-semibold text-[#111827]">
+                        {state.manualTitle.trim()}
+                      </span>
+                    )}
+                    <p className="text-sm font-body text-[#111827] whitespace-pre-wrap">
+                      {state.manualDescription}
+                    </p>
+                  </li>
+                ) : (
+                  <li className="flex items-center gap-2">
+                    <span className="text-[#4B5563] w-24 shrink-0">
+                      Constraint:
+                    </span>
+                    <span className="font-medium">
+                      {labelForConstraint(state.unit, state.constraint)}
+                    </span>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      className="text-[#0D9488] ml-auto shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M3 7.5L5.5 10L11 4"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </li>
+                )}
                 <li className="flex items-center gap-2">
                   <span className="text-[#4B5563] w-24 shrink-0">
                     Severity:
@@ -467,7 +597,7 @@ export function ConstraintWizard({ isOpen, onClose }: ConstraintWizardProps) {
             {state.step === 5 ? (
               <button
                 type="button"
-                onClick={handleClose}
+                onClick={handleSubmit}
                 className="w-full ml-4 h-14 rounded bg-[#0D9488] text-white text-sm font-headline font-semibold hover:bg-[#0F766E] transition-colors cursor-pointer"
               >
                 Submit Constraint

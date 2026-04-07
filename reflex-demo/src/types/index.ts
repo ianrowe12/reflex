@@ -41,6 +41,7 @@ export interface Constraint {
   age: string;
   status: ConstraintStatus;
   description?: string;
+  manual?: boolean;
 }
 
 export interface ConnectionHealth {
@@ -92,4 +93,6 @@ export interface WizardState {
   constraint?: string;
   severity?: number;
   duration?: string;
+  manualDescription?: string;
+  manualTitle?: string;
 }

@@ -91,6 +91,16 @@ export default function AssetsPage() {
 
   return (
     <div className="flex flex-col gap-5">
+      {/* Integration notice */}
+      <div className="bg-[#F0FDFA] border border-[#CCFBF1] rounded p-3 flex items-start gap-3">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider bg-white text-[#0D9488] border border-[#CCFBF1] shrink-0 mt-0.5">
+          Optional Integration
+        </span>
+        <p className="text-xs font-body text-[#0F766E] leading-relaxed">
+          Asset Management is an optional integration. Connect your asset management system (e.g. SAP PM, Maximo, Aveva APM) to populate live equipment data. The data shown below is sample data for demonstration purposes.
+        </p>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">

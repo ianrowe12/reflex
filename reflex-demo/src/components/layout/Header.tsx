@@ -11,8 +11,6 @@ import { connections, SITE } from "@/data/mock-data";
 const tabs = [
   { href: "/operations", label: "Global View" },
   { href: "/assets", label: "Assets" },
-  { href: "/compliance", label: "Compliance" },
-  { href: "/safety", label: "Safety" },
 ];
 
 export function Header() {
